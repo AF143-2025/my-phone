@@ -223,16 +223,16 @@ body {
 }
 
 /* Responsive bottom bar for mobile */
-.mobile-bottom-nav {
+#mobile-bottom-bar {
   display: none;
 }
 @media (max-width: 768px) {
-  .mobile-bottom-nav {
-    display: flex;
+  #mobile-bottom-bar {
+    display: flex !important;
     padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
   }
   body {
-    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(85px + env(safe-area-inset-bottom, 0px)) !important;
   }
   
   /* Compact cards on mobile phones */
@@ -243,6 +243,14 @@ body {
   /* Comfortable touch targets on mobile */
   button, a {
     touch-action: manipulation;
+  }
+}
+@media (min-width: 769px) {
+  #mobile-bottom-bar {
+    display: none !important;
+  }
+  body {
+    padding-bottom: 0 !important;
   }
 }
 

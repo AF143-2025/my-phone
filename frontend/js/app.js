@@ -212,7 +212,7 @@
         (c) => `
       <div onclick="window.MobilyaApp.filterCategory(${c.id}, '${c.name}')" 
            class="p-4 rounded-2xl glass-card text-center cursor-pointer group hover:scale-[1.03] transition-all border border-slate-800/80 hover:border-purple-500/50">
-        <div class="w-12 h-12 mx-auto rounded-2xl bg-slate-900/80 flex items-center justify-center text-2xl mb-2 group-hover:scale-110 transition-transform">
+        <div class="w-9 h-9 sm:w-12 sm:h-12 mx-auto rounded-xl sm:rounded-2xl bg-slate-900/80 flex items-center justify-center text-xl sm:text-2xl mb-1 sm:mb-2 group-hover:scale-110 transition-transform">
           ${c.icon}
         </div>
         <h4 class="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">${c.name}</h4>
@@ -306,11 +306,11 @@
           </div>
 
           <div class="flex items-center gap-2 pt-2 border-t border-slate-800/80">
-            <button onclick="window.MobilyaApp.contactStoreWhatsApp('${store.id}')" class="flex-1 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors">
+            <button onclick="window.MobilyaApp.contactStoreWhatsApp('${store.id}')" class="flex-1 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors">
               <span>واتساب</span>
               <span>💬</span>
             </button>
-            <button onclick="window.MobilyaApp.openStoreDetails('${store.id}')" class="px-3.5 py-2 rounded-xl btn-glass-secondary text-xs font-semibold">
+            <button onclick="window.MobilyaApp.openStoreDetails('${store.id}')" class="flex-1 py-2.5 rounded-xl btn-glass-secondary text-xs font-semibold text-center">
               تصفح المحل ←
             </button>
           </div>
@@ -351,7 +351,7 @@
             : '<span class="text-[9px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 font-bold">غير متوفر</span>';
 
         return `
-        <div class="glass-card rounded-2xl p-3.5 border border-slate-800 hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-3 group">
+        <div class="glass-card rounded-2xl p-2.5 sm:p-3.5 border border-slate-800 hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-2.5 sm:space-y-3 group">
           <div class="relative overflow-hidden rounded-xl bg-slate-900 aspect-square flex items-center justify-center p-2">
             <img src="${p.image_url || 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600'}" alt="${p.name}" class="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300" />
             <button onclick="window.MobilyaApp.toggleFavorite(${p.id}, event)" class="absolute top-2 left-2 w-7 h-7 rounded-full bg-slate-950/80 border border-slate-700/80 text-xs flex items-center justify-center hover:scale-110 transition-transform ${isFav ? 'text-rose-500 font-bold' : 'text-slate-400'}">

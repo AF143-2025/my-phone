@@ -11,49 +11,42 @@
 </head>
 <body class="bg-[#05070d] text-slate-100 antialiased selection:bg-purple-600 selection:text-white">
 
-  <!-- ==================== TOP NAVIGATION HEADER ==================== -->
+  <!-- ==================== TOP NAVIGATION HEADER (ULTRA CLEAN ON MOBILE & LAPTOP) ==================== -->
   <header class="sticky top-0 z-50 glass-header-nav">
     <div class="max-w-[1440px] mx-auto px-3 sm:px-6">
       
       <!-- Primary Nav Row -->
-      <div class="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
+      <div class="flex items-center justify-between h-14 sm:h-18 gap-2 sm:gap-4">
         
         <!-- Right: Brand Logo & Region Selector -->
-        <div class="flex items-center gap-2.5 sm:gap-4 flex-shrink-0">
-          <a href="#" onclick="window.MobilyaApp.goHome(); return false;" class="flex items-center gap-2 sm:gap-3 group">
-            <!-- Modern 3D Holographic Mobilya Logo -->
-            <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-purple-600/30 group-hover:scale-105 transition-transform flex-shrink-0">
-              <div class="w-full h-full bg-[#080c16] rounded-[10px] sm:rounded-[14px] flex items-center justify-center font-black text-base sm:text-xl text-white">
+        <div class="flex items-center gap-2 sm:gap-3.5 flex-shrink-0">
+          <a href="#" onclick="window.MobilyaApp.goHome(); return false;" class="flex items-center gap-2 group">
+            <!-- Modern Holographic Logo -->
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-400 p-0.5 shadow-md shadow-purple-600/30 group-hover:scale-105 transition-transform flex-shrink-0">
+              <div class="w-full h-full bg-[#080c16] rounded-[10px] flex items-center justify-center font-black text-base text-white">
                 M
               </div>
             </div>
             <div>
-              <span class="text-lg sm:text-2xl font-black text-white tracking-tight leading-none block group-hover:text-purple-300 transition-colors">Mobilya</span>
-              <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium hidden xs:block">سوق الموبايل في منطقتك</span>
+              <span class="text-lg sm:text-xl font-black text-white tracking-tight leading-none block group-hover:text-purple-300 transition-colors">Mobilya</span>
+              <span class="text-[9px] text-slate-400 font-medium hidden sm:block">سوق الموبايل في منطقتك</span>
             </div>
           </a>
 
-          <!-- Region Selector Button (Desktop / Laptop) -->
-          <button onclick="window.MobilyaApp.openRegionModal()" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-purple-500/50 text-xs transition-all">
-            <span class="text-purple-400">📍</span>
-            <span class="text-slate-400 text-[11px]">المنطقة:</span>
-            <span class="current-region-label font-bold text-white">أبو غريب - أبو منيصير</span>
-            <span class="text-slate-500 text-[9px]">▼</span>
-          </button>
-
-          <!-- Region Selector Badge (Mobile Phones) -->
-          <button onclick="window.MobilyaApp.openRegionModal()" class="flex md:hidden items-center gap-1 px-2 py-1 rounded-lg bg-slate-900/90 border border-purple-500/40 text-[10px] font-bold text-purple-300">
-            <span>📍</span>
-            <span class="truncate max-w-[80px]">أبو منيصير</span>
-            <span class="text-[8px] text-slate-400">▼</span>
+          <!-- Region Badge (Clean & Compact on Phone & Laptop) -->
+          <button onclick="window.MobilyaApp.openRegionModal()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900/90 border border-purple-500/30 hover:border-purple-500/60 text-xs transition-all">
+            <span class="text-purple-400 text-xs">📍</span>
+            <span class="hidden sm:inline text-slate-400 text-[11px]">المنطقة:</span>
+            <span class="current-region-label font-bold text-white text-[11px] sm:text-xs">أبو منيصير</span>
+            <span class="text-slate-500 text-[8px]">▼</span>
           </button>
         </div>
 
-        <!-- Center: Quick Search Bar in Header (Laptop / Desktop) -->
+        <!-- Center: Quick Search Bar in Header (Laptop / Desktop only) -->
         <div class="hidden lg:flex flex-1 max-w-md mx-4 xl:mx-8">
           <div class="relative w-full flex items-center">
             <input type="text" id="header-search-bar" 
-                   placeholder="ابحث عن هاتف، إكسسوار، خدمة صيانة أو محل في قضاء أبو غريب..." 
+                   placeholder="ابحث عن هاتف، إكسسوار، أو صيانة في أبو غريب..." 
                    onkeyup="if(event.key==='Enter') window.MobilyaApp.quickSearch(this.value)"
                    class="w-full bg-[#0d1322] border border-slate-800 rounded-xl py-2 px-4 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" />
             <button onclick="window.MobilyaApp.quickSearch(document.getElementById('header-search-bar').value)" 
@@ -63,61 +56,38 @@
           </div>
         </div>
 
-        <!-- Left: Quick Links & CTAs -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
-          <!-- Wishlist (Laptop / Tablet) -->
-          <button onclick="alert('❤️ قائمة المفضلة: لديك منتجات ومحلات محفوظة!')" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl btn-glass-secondary text-xs">
-            <span>♡</span>
-            <span class="hidden md:inline">المفضلة</span>
-            <span class="fav-count-badge w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">2</span>
-          </button>
-
-          <!-- Notifications -->
-          <button onclick="window.MobilyaApp.openNotificationsModal()" class="relative p-2 sm:p-2.5 rounded-xl btn-glass-secondary text-slate-300 hover:text-white">
-            <span>🔔</span>
-            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center shadow">3</span>
-          </button>
-
-          <!-- Dynamic Header Auth Container -->
-          <div id="header-auth-container" class="flex items-center gap-1.5 sm:gap-2">
-            <!-- Populated dynamically by app.js -->
-            <button onclick="window.MobilyaApp.openAuthModal()" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl btn-glass-secondary text-xs text-slate-200 font-semibold">
-              <span class="hidden sm:inline">👤</span>
-              <span>دخول</span>
-            </button>
-            <button onclick="window.MobilyaApp.openAuthModal('register')" class="flex items-center gap-1 py-1.5 sm:py-2 px-2.5 sm:px-3.5 rounded-xl btn-electric text-xs font-bold glowing-ring">
-              <span>+</span>
-              <span class="hidden sm:inline">أضف محلك</span>
-              <span class="sm:hidden">سجل</span>
-            </button>
+        <!-- Left: Side Menu Trigger & Desktop Auth -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- Desktop Auth Buttons (Hidden on mobile - managed by side drawer cleanly) -->
+          <div id="header-auth-container" class="hidden md:flex items-center gap-2">
+            <!-- Populated dynamically by app.js on desktop -->
           </div>
 
-          <!-- Hamburger Button to Open Side Drawer (Side Menu) -->
+          <!-- Hamburger Button to Open Side Drawer (Accessible on Phone & Laptop) -->
           <button onclick="window.MobilyaApp.openSideDrawer()" 
-                  class="p-2 sm:p-2.5 rounded-xl btn-glass-secondary text-slate-200 hover:text-white hover:border-purple-500/60 flex items-center justify-center transition-all group" 
-                  title="القائمة الجانبية وتفاصيل الحساب"
+                  class="flex items-center gap-1.5 py-1.5 px-3 rounded-xl btn-electric text-xs font-bold shadow-md shadow-purple-900/30 hover:scale-105 active:scale-95 transition-all" 
+                  title="القائمة الجانبية وتسجيل الدخول"
                   aria-label="القائمة الجانبية">
-            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+            <span class="text-sm leading-none">☰</span>
+            <span class="text-xs font-bold">القائمة</span>
           </button>
         </div>
 
       </div>
 
-      <!-- Secondary Navigation Bar (Smooth Swipe on Phone & Clean Row on Laptop) -->
-      <nav class="flex items-center gap-1.5 sm:gap-2 py-2 border-t border-slate-800/60 overflow-x-auto no-scrollbar text-xs font-semibold whitespace-nowrap">
-        <a href="#home" onclick="window.MobilyaApp.goHome(); return false;" class="px-3 sm:px-4 py-1.5 rounded-lg active-nav-link flex-shrink-0">الرئيسية</a>
-        <a href="#featured-stores" onclick="window.MobilyaApp.scrollToSection('featured-stores-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">المحلات المعتمدة</a>
-        <a href="#products" onclick="window.MobilyaApp.scrollToSection('products-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">أحدث الأجهزة</a>
-        <a href="#deals" onclick="window.MobilyaApp.scrollToSection('flash-deals-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex items-center gap-1 flex-shrink-0">
+      <!-- Secondary Navigation Bar (Desktop / Laptop Only - Hidden on mobile because phone uses the bottom bar!) -->
+      <nav class="hidden md:flex items-center gap-2 py-2 border-t border-slate-800/60 overflow-x-auto no-scrollbar text-xs font-semibold whitespace-nowrap">
+        <a href="#home" onclick="window.MobilyaApp.goHome(); return false;" class="px-3.5 py-1.5 rounded-lg active-nav-link flex-shrink-0">الرئيسية</a>
+        <a href="#featured-stores" onclick="window.MobilyaApp.scrollToSection('featured-stores-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">المحلات المعتمدة</a>
+        <a href="#products" onclick="window.MobilyaApp.scrollToSection('products-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">أحدث الأجهزة</a>
+        <a href="#deals" onclick="window.MobilyaApp.scrollToSection('flash-deals-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex items-center gap-1 flex-shrink-0">
           <span>عروض اليوم</span>
           <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
         </a>
-        <a href="#calculator" onclick="window.MobilyaApp.scrollToSection('maintenance-calc-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">حاسبة الصيانة</a>
-        <a href="#market-prices" onclick="window.MobilyaApp.scrollToSection('market-prices-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">أسعار السوق</a>
-        <a href="#categories" onclick="window.MobilyaApp.scrollToSection('categories-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">الأقسام</a>
-        <a href="#reviews" onclick="window.MobilyaApp.scrollToSection('reviews-section'); return false;" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">آراء الزبائن</a>
+        <a href="#calculator" onclick="window.MobilyaApp.scrollToSection('maintenance-calc-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">حاسبة الصيانة</a>
+        <a href="#market-prices" onclick="window.MobilyaApp.scrollToSection('market-prices-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">أسعار السوق</a>
+        <a href="#categories" onclick="window.MobilyaApp.scrollToSection('categories-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">الأقسام</a>
+        <a href="#reviews" onclick="window.MobilyaApp.scrollToSection('reviews-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex-shrink-0">آراء الزبائن</a>
       </nav>
 
     </div>
@@ -127,7 +97,7 @@
   <main id="view-home" class="view-container active-view">
     
     <!-- 1. HERO SECTION (صورة شفافة فخمة مع هواتف 3D وإضاءة نيون محيطية) -->
-    <section class="relative pt-8 pb-16 overflow-hidden">
+    <section class="relative pt-4 sm:pt-8 pb-8 sm:pb-14 overflow-hidden">
       
       <!-- Background Ambient Glow Spheres -->
       <div class="absolute top-10 right-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -282,7 +252,7 @@
           <p class="text-xs text-slate-400 mt-1.5">اختر القسم لاستكشاف المحلات والمنتجات المتخصصة في قضاء أبو غريب</p>
         </div>
 
-        <div id="categories-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div id="categories-grid" class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
           <!-- Rendered dynamically -->
         </div>
 
@@ -313,7 +283,7 @@
         </div>
 
         <!-- 4 Deal Cards Grid -->
-        <div id="flash-deals-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div id="flash-deals-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           <!-- Rendered dynamically -->
         </div>
 
@@ -541,35 +511,35 @@
       <div class="absolute inset-0 bg-gradient-to-t from-[#070b14] via-[#070b14]/90 to-transparent"></div>
 
       <div class="relative z-10 max-w-[1360px] mx-auto px-4 sm:px-6 pt-10 pb-12">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <img id="store-page-logo" src="" alt="Store Logo" class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl object-cover border-2 border-purple-500/50 shadow-2xl bg-slate-900 flex-shrink-0 glowing-ring" />
+        <div class="flex flex-col md:flex-row items-center md:items-center justify-between gap-6 text-center md:text-right">
+          <div class="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-5">
+            <img id="store-page-logo" src="" alt="Store Logo" class="w-20 h-20 sm:w-28 sm:h-28 rounded-2xl sm:rounded-3xl object-cover border-2 border-purple-500/50 shadow-2xl bg-slate-900 flex-shrink-0 glowing-ring mx-auto" />
             <div class="space-y-2">
-              <div class="flex flex-wrap items-center gap-2">
-                <h1 id="store-page-name" class="text-2xl sm:text-4xl font-black text-white">اسم المحل</h1>
-                <span id="store-page-verified-badge" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+              <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                <h1 id="store-page-name" class="text-xl sm:text-3xl lg:text-4xl font-black text-white">اسم المحل</h1>
+                <span id="store-page-verified-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] sm:text-xs font-bold inline-flex items-center gap-1 shadow-sm">
                   <span>✓</span>
-                  <span>موثق رسمياً في قضاء أبو غريب</span>
+                  <span>موثق رسمياً</span>
                 </span>
               </div>
-              <p id="store-page-desc" class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+              <p id="store-page-desc" class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed mx-auto md:mx-0">
                 وصف المتجر...
               </p>
-              <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-300 pt-1">
-                <span id="store-page-loc" class="flex items-center gap-1.5">📍 <span class="text-white font-medium">أبو غريب</span></span>
-                <span id="store-page-hours" class="flex items-center gap-1.5">🕒 <span class="text-white font-medium">9:00 ص - 11:00 م</span></span>
-                <span id="store-page-phone" class="flex items-center gap-1.5 font-mono text-cyan-300">📞 <span>0770...</span></span>
+              <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1.5 text-xs text-slate-300 pt-1">
+                <span id="store-page-loc" class="flex items-center gap-1">📍 <span class="text-white font-medium">أبو غريب</span></span>
+                <span id="store-page-hours" class="flex items-center gap-1">🕒 <span class="text-white font-medium">9:00 ص - 11:00 م</span></span>
+                <span id="store-page-phone" class="flex items-center gap-1 font-mono text-cyan-300">📞 <span>0770...</span></span>
               </div>
             </div>
           </div>
 
-          <!-- Direct CTA Buttons -->
-          <div class="flex sm:flex-row md:flex-col gap-3 w-full sm:w-auto flex-shrink-0">
-            <a id="store-page-wa-action" href="#" target="_blank" class="flex-1 sm:flex-initial py-3 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/25 transition-all text-center">
-              <span>مراسلة عبر الواتساب</span>
-              <span class="text-lg">💬</span>
+          <!-- Direct CTA Buttons (Centered & Side-by-Side on Phone) -->
+          <div class="flex flex-row md:flex-col gap-2.5 w-full sm:w-auto flex-shrink-0 justify-center">
+            <a id="store-page-wa-action" href="#" target="_blank" class="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/25 transition-all text-center">
+              <span>مراسلة واتساب</span>
+              <span class="text-base">💬</span>
             </a>
-            <a id="store-page-call-action" href="#" class="flex-1 sm:flex-initial py-3 px-6 rounded-2xl btn-glass-secondary text-slate-200 hover:text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 text-center transition-all">
+            <a id="store-page-call-action" href="#" class="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl btn-glass-secondary text-slate-200 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 text-center transition-all">
               <span>اتصال هاتفي</span>
               <span>📞</span>
             </a>
