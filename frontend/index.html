@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobilya — سوق الموبايلات في منطقتك (قضاء أبو غريب)</title>
+  
+  <!-- Tailwind CSS & Custom Design System -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#05070d] text-slate-100 antialiased selection:bg-purple-600 selection:text-white">
+
+  <!-- ==================== TOP NAVIGATION HEADER ==================== -->
+  <header class="sticky top-0 z-50 glass-header-nav">
+    <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+      
+      <!-- Primary Nav Row -->
+      <div class="flex items-center justify-between h-20 gap-4">
+        
+        <!-- Right: Brand Logo & Region Selector -->
+        <div class="flex items-center gap-4">
+          <a href="#" onclick="window.MobilyaApp.goHome(); return false;" class="flex items-center gap-3 group">
+            <!-- Modern 3D Holographic Mobilya Logo -->
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-purple-600/30 group-hover:scale-105 transition-transform">
+              <div class="w-full h-full bg-[#080c16] rounded-[14px] flex items-center justify-center font-black text-xl text-white">
+                M
+              </div>
+            </div>
+            <div>
+              <span class="text-2xl font-black text-white tracking-tight leading-none block group-hover:text-purple-300 transition-colors">Mobilya</span>
+              <span class="text-[10px] text-slate-400 font-medium">سوق الموبايلات في منطقتك</span>
+            </div>
+          </a>
+
+          <!-- Region Selector Button -->
+          <button onclick="window.MobilyaApp.openRegionModal()" class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-purple-500/50 text-xs transition-all">
+            <span class="text-purple-400">📍</span>
+            <span class="text-slate-400 text-[11px]">المنطقة:</span>
+            <span class="current-region-label font-bold text-white">أبو غريب - أبو منيصير</span>
+            <span class="text-slate-500 text-[9px]">▼</span>
+          </button>
+        </div>
+
+        <!-- Center: Quick Search Bar in Header -->
+        <div class="hidden lg:flex flex-1 max-w-md mx-6">
+          <div class="relative w-full flex items-center">
+            <input type="text" id="header-search-bar" 
+                   placeholder="ابحث عن هاتف، إكسسوار، خدمة صيانة أو محل في قضاء أبو غريب..." 
+                   onkeyup="if(event.key==='Enter') window.MobilyaApp.quickSearch(this.value)"
+                   class="w-full bg-[#0d1322] border border-slate-800 rounded-xl py-2 px-4 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" />
+            <button onclick="window.MobilyaApp.quickSearch(document.getElementById('header-search-bar').value)" 
+                    class="p-2 rounded-lg btn-electric text-white text-xs mr-1 absolute left-1">
+              🔍
+            </button>
+          </div>
+        </div>
+
+        <!-- Left: Quick Links & CTAs -->
+        <div class="flex items-center gap-2.5">
+          <!-- Wishlist -->
+          <button onclick="alert('❤️ قائمة المفضلة: لديك منتجات ومحلات محفوظة!')" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl btn-glass-secondary text-xs">
+            <span>♡</span>
+            <span>المفضلة</span>
+            <span class="fav-count-badge w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">2</span>
+          </button>
+
+          <!-- Notifications -->
+          <button onclick="window.MobilyaApp.openNotificationsModal()" class="relative p-2.5 rounded-xl btn-glass-secondary text-slate-300 hover:text-white">
+            <span>🔔</span>
+            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center shadow">3</span>
+          </button>
+
+          <!-- Dynamic Header Auth Container -->
+          <div id="header-auth-container" class="flex items-center gap-2">
+            <!-- Populated dynamically by app.js -->
+            <button onclick="window.MobilyaApp.openAuthModal()" class="px-3.5 py-2 rounded-xl btn-glass-secondary text-xs text-slate-200 font-semibold">
+              👤 تسجيل الدخول
+            </button>
+            <button onclick="window.MobilyaApp.openAuthModal('register')" class="flex items-center gap-1.5 py-2 px-3.5 rounded-xl btn-electric text-xs font-bold glowing-ring">
+              <span>+</span>
+              <span>أضف محلك</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Secondary Navigation Bar -->
+      <nav class="flex items-center gap-2 py-2 border-t border-slate-800/60 overflow-x-auto text-xs font-semibold">
+        <a href="#home" onclick="window.MobilyaApp.goHome(); return false;" class="px-4 py-1.5 rounded-lg active-nav-link">الرئيسية</a>
+        <a href="#featured-stores" onclick="window.MobilyaApp.scrollToSection('featured-stores-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white">المحلات المعتمدة</a>
+        <a href="#products" onclick="window.MobilyaApp.scrollToSection('products-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white">أحدث الأجهزة</a>
+        <a href="#deals" onclick="window.MobilyaApp.scrollToSection('flash-deals-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white flex items-center gap-1">
+          <span>عروض اليوم</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
+        </a>
+        <a href="#calculator" onclick="window.MobilyaApp.scrollToSection('maintenance-calc-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white">حاسبة الصيانة الفورية</a>
+        <a href="#market-prices" onclick="window.MobilyaApp.scrollToSection('market-prices-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white">أسعار السوق</a>
+        <a href="#categories" onclick="window.MobilyaApp.scrollToSection('categories-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white">الأقسام</a>
+        <a href="#reviews" onclick="window.MobilyaApp.scrollToSection('reviews-section'); return false;" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white">آراء الزبائن</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ==================== VIEW 1: MASTER HOMEPAGE ==================== -->
+  <main id="view-home" class="view-container active-view">
+    
+    <!-- 1. HERO SECTION (صورة شفافة فخمة مع هواتف 3D وإضاءة نيون محيطية) -->
+    <section class="relative pt-8 pb-16 overflow-hidden">
+      
+      <!-- Background Ambient Glow Spheres -->
+      <div class="absolute top-10 right-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-20 left-1/4 w-96 h-96 bg-cyan-600/12 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 relative z-10">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Right Column: Text & Value Propositions (7 Cols) -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Live Region Badge -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-purple-500/30 text-xs text-purple-300 backdrop-blur">
+              <span class="live-green-dot"></span>
+              <span>سوق الموبايل الرقمي الموحد: <strong class="text-white">أبو غريب — أبو منيصير</strong></span>
+              <button onclick="window.MobilyaApp.openRegionModal()" class="text-slate-400 hover:text-white underline mr-1 text-[11px]">المنطقة</button>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight sm:leading-none tracking-tight">
+              كل ما تحتاجه لعالم الموبايلات<br>
+              <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+                في مكان واحد 📱
+              </span>
+            </h1>
+
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
+              اكتشف محلات الموبايل في منطقتك، قارن الأسعار الحقيقية بالدينار العراقي، تصفح خدمات الصيانة الفورية، وتواصل مع صاحب المحل مباشرة عبر الواتساب دون وسيط.
+            </p>
+
+            <!-- 4 Value Pillar Pills -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs max-w-xl">
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2">
+                <span class="text-cyan-400 text-base">📊</span>
+                <div>
+                  <span class="text-[11px] font-bold text-white block">أسعار حقيقية</span>
+                  <span class="text-[10px] text-slate-400">محدثة يومياً</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2">
+                <span class="text-emerald-400 text-base">🛡️</span>
+                <div>
+                  <span class="text-[11px] font-bold text-white block">محلات موثوقة</span>
+                  <span class="text-[10px] text-slate-400">فحص وضمان</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2">
+                <span class="text-purple-400 text-base">🛠️</span>
+                <div>
+                  <span class="text-[11px] font-bold text-white block">صيانة فورية</span>
+                  <span class="text-[10px] text-slate-400">بأسعار ثابتة</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2">
+                <span class="text-indigo-400 text-base">💬</span>
+                <div>
+                  <span class="text-[11px] font-bold text-white block">تواصل فوري</span>
+                  <span class="text-[10px] text-slate-400">واتساب وهاتف</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Action Buttons -->
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <button onclick="window.MobilyaApp.scrollToSection('featured-stores-section')" class="py-3 px-6 rounded-2xl btn-electric text-xs font-bold flex items-center gap-2">
+                <span>🏪</span>
+                <span>اكتشف محلات أبو غريب</span>
+                <span>←</span>
+              </button>
+              <button onclick="window.MobilyaApp.scrollToSection('maintenance-calc-section')" class="py-3 px-6 rounded-2xl btn-glass-secondary text-xs font-semibold flex items-center gap-2">
+                <span>🛠️</span>
+                <span>احسب سعر تصليح جهازك</span>
+              </button>
+            </div>
+
+            <!-- Trust KPIs -->
+            <div class="grid grid-cols-3 gap-4 max-w-lg pt-4 border-t border-slate-800/80 text-right">
+              <div>
+                <div id="hero-kpi-stores-count" class="text-xl font-black text-white font-mono">3</div>
+                <div class="text-[11px] text-slate-400">محلات معتمدة في أبو منيصير</div>
+              </div>
+              <div>
+                <div class="text-xl font-black text-purple-400 font-mono">+1,200</div>
+                <div class="text-[11px] text-slate-400">هاتف وإكسسوار معروض</div>
+              </div>
+              <div>
+                <div class="text-xl font-black text-emerald-400 font-mono">100%</div>
+                <div class="text-[11px] text-slate-400">تواصل مباشر بدون عمولة</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Left Column: Transparent Seamless 3D Device Showcase (5 Cols) -->
+          <div class="lg:col-span-5 relative flex items-center justify-center">
+            
+            <!-- Soft Ambient Tech Halo (خلفية ضوئية شفافة) -->
+            <div class="absolute w-80 h-80 bg-gradient-to-tr from-purple-600/30 via-indigo-500/20 to-cyan-400/20 rounded-full blur-3xl -z-10"></div>
+
+            <!-- 3D Floating Devices Composite with transparent PNG look -->
+            <div class="relative w-full max-w-md floating-hero-device">
+              
+              <!-- Transparent Glass Frame with flagship renders -->
+              <div class="relative z-10 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80" 
+                     alt="Flagship Smartphone" 
+                     class="w-72 h-96 object-cover rounded-3xl shadow-2xl shadow-purple-950/80 border border-purple-500/30" />
+              </div>
+
+              <!-- Floating Glass Badge 1 (Top Right) -->
+              <div class="absolute -top-4 right-2 z-20 glass-box p-2.5 px-3.5 border-purple-500/40 flex items-center gap-2.5 shadow-xl animate-bounce" style="animation-duration: 4s;">
+                <span class="text-lg">🔥</span>
+                <div>
+                  <div class="text-[11px] font-bold text-white">iPhone 16 Pro Max</div>
+                  <div class="text-[10px] text-cyan-300 font-mono font-bold">1,740,000 د.ع</div>
+                </div>
+              </div>
+
+              <!-- Floating Glass Badge 2 (Bottom Left) -->
+              <div class="absolute -bottom-4 left-2 z-20 glass-box p-2.5 px-3.5 border-emerald-500/40 flex items-center gap-2.5 shadow-xl">
+                <span class="text-lg">🛡️</span>
+                <div>
+                  <div class="text-[11px] font-bold text-white">ضمان وكالة رسمي</div>
+                  <div class="text-[10px] text-emerald-400 font-semibold">فحص معتمد 100%</div>
+                </div>
+              </div>
+
+              <!-- Floating Floating Badge 3 (Mid Right) -->
+              <div class="absolute top-1/2 -left-6 z-20 glass-box p-2 px-3 border-slate-700/60 hidden sm:flex items-center gap-2 shadow-lg">
+                <span class="live-green-dot"></span>
+                <span class="text-[11px] font-semibold text-slate-200">صيانة فورية خلال 30 دقيقة</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Centered Floating Search & Category Selector -->
+        <div class="mt-12 max-w-4xl mx-auto">
+          <div class="glass-box p-3.5 sm:p-4 border-purple-500/30 shadow-2xl shadow-purple-950/60">
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+              
+              <!-- Dropdown -->
+              <div class="w-full sm:w-48">
+                <select id="main-search-category" class="w-full bg-[#0d1322] border border-slate-700/80 rounded-xl px-3 py-3 text-xs text-slate-200 font-medium focus:outline-none">
+                  <option value="all">جميع الأقسام ▾</option>
+                  <option value="phones">📱 الهواتف والأجهزة</option>
+                  <option value="numbers">💳 الخطوط والأرقام</option>
+                  <option value="accessories">🎧 الإكسسوارات والشواحن</option>
+                  <option value="watches">⌚ الساعات الذكية</option>
+                  <option value="maintenance">🛠️ الصيانة الفورية</option>
+                </select>
+              </div>
+
+              <!-- Text Input -->
+              <div class="relative flex-1 w-full">
+                <input type="text" id="main-hero-search" 
+                       placeholder="ابحث عن موديل هاتف، ماركة، شاحن، أو خدمة صيانة في قضاء أبو غريب..." 
+                       onkeyup="if(event.key==='Enter') window.MobilyaApp.quickSearch(this.value)"
+                       class="w-full bg-[#0d1322] border border-slate-700/80 rounded-xl py-3 px-4 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-all" />
+              </div>
+
+              <!-- Search Button -->
+              <button onclick="window.MobilyaApp.quickSearch(document.getElementById('main-hero-search').value)" 
+                      class="w-full sm:w-auto py-3 px-7 rounded-xl btn-electric text-xs font-bold flex items-center justify-center gap-2">
+                <span>بحث في أبو غريب</span>
+                <span>🔍</span>
+              </button>
+            </div>
+
+            <!-- Quick Filter Chips -->
+            <div class="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-slate-800/80 text-xs">
+              <span class="text-slate-400 font-medium">الأكثر بحثاً:</span>
+              <button onclick="window.MobilyaApp.quickSearch('iPhone 16 Pro Max')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-[11px]">iPhone 16 Pro Max</button>
+              <button onclick="window.MobilyaApp.quickSearch('Samsung S24 Ultra')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-[11px]">S24 Ultra</button>
+              <button onclick="window.MobilyaApp.quickSearch('AirPods Pro 2')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-[11px]">AirPods Pro 2</button>
+              <button onclick="window.MobilyaApp.quickSearch('خطوط آسيا سيل')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-[11px]">خطوط مميزة</button>
+              <button onclick="window.MobilyaApp.quickSearch('تبديل شاشة')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-[11px]">تبديل شاشة</button>
+              <button onclick="window.MobilyaApp.quickSearch('شاحن Anker')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-[11px]">شواحن Anker</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. CORE CATEGORIES (الأقسام الرئيسية - 6 بطاقات تقنية زجاجية) -->
+    <section id="categories-section" class="py-12 border-t border-slate-900 bg-[#070a12]/60">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-black text-white">تصفح الأقسام الرئيسية</h2>
+            <p class="text-xs text-slate-400 mt-1">اختر القسم لاستكشاف المحلات والمنتجات المتخصصة في قضاء أبو غريب</p>
+          </div>
+          <button onclick="alert('تصفح جميع الأقسام')" class="text-xs text-purple-400 hover:text-purple-300 font-bold">
+            عرض كافة الأقسام ←
+          </button>
+        </div>
+
+        <div id="categories-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. FLASH DEALS (عروض اليوم الحصرية مع مؤقت ونسبة الحجز 🔥) -->
+    <section id="flash-deals-section" class="py-14 border-t border-slate-900 bg-gradient-to-b from-rose-950/10 via-[#070a12] to-[#070a12]">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <!-- Header with Live Countdown -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <div class="flex items-center gap-2 text-rose-400 text-xs font-bold mb-1">
+              <span>🔥</span>
+              <span>تخفيضات محدودة الكمية من محلات قضاء أبو غريب</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">عروض اليوم الحصرية</h2>
+          </div>
+
+          <!-- Countdown Timer Box -->
+          <div class="flex items-center gap-2 p-2 px-3.5 rounded-2xl glass-box border-rose-500/30">
+            <span class="text-xs text-slate-300 font-medium">ينتهي العرض خلال:</span>
+            <div class="flex items-center gap-1 font-mono font-bold text-white text-xs">
+              <span class="timer-hours px-2 py-1 rounded bg-slate-900 border border-slate-800">07</span>:
+              <span class="timer-mins px-2 py-1 rounded bg-slate-900 border border-slate-800">45</span>:
+              <span class="timer-secs px-2 py-1 rounded bg-rose-950 border border-rose-500/40 text-rose-400">30</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Deal Cards Grid -->
+        <div id="flash-deals-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. FEATURED STORES (المحلات المعتمدة في قضاء أبو غريب 🏪) -->
+    <section id="featured-stores-section" class="py-14 border-t border-slate-900 bg-[#080c16]/50">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <div class="flex items-center gap-2 text-purple-400 text-xs font-bold mb-1">
+              <span>🏪</span>
+              <span>المحلات المعتمدة في أبو منيصير</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">محلات الموبايل في أبو منيصير</h2>
+            <p class="text-xs text-slate-400 mt-1">تصفح محلات أبو منيصير المعتمدة في قضاء أبو غريب، شاهد التقييمات، ساعات الدوام، وتواصل معهم مباشرة</p>
+          </div>
+
+          <button onclick="window.MobilyaApp.scrollToSection('featured-stores-section')" class="py-2.5 px-4 rounded-xl btn-glass-secondary text-xs font-bold self-start sm:self-auto">
+            <span id="featured-stores-count-label">عرض المحلات المعتمدة (3 محلات) ←</span>
+          </button>
+        </div>
+
+        <!-- Stores Grid -->
+        <div id="featured-stores-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. INTERACTIVE MAINTENANCE ESTIMATOR (حاسبة أسعار الصيانة الفورية في قضاء أبو غريب 🛠️) -->
+    <section id="maintenance-calc-section" class="py-14 border-t border-slate-900 bg-gradient-to-r from-purple-950/20 via-[#080c16] to-cyan-950/20">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <div class="glass-box p-6 lg:p-10 border-purple-500/30 shadow-2xl">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left Info & Form (7 Cols) -->
+            <div class="lg:col-span-7 space-y-5">
+              <div>
+                <span class="text-xs font-bold text-cyan-400 flex items-center gap-1.5 mb-1">
+                  <span>🛠️</span>
+                  <span>شفافية كاملة في أسعار التصليح</span>
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white">حاسبة أسعار الصيانة الفورية في أبو غريب</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+                  اختر طراز جهازك والمشكلة التي تواجهها لمعرفة السعر التقريبي المعتمد لدى مراكز صيانة قضاء أبو غريب، مدة الإصلاح، وفترة الضمان.
+                </p>
+              </div>
+
+              <!-- Calculator Controls -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label class="text-xs text-slate-300 block mb-2 font-bold">1. اختر نوع وطراز الجهاز:</label>
+                  <select id="calc-device-select" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500 font-semibold"></select>
+                </div>
+
+                <div>
+                  <label class="text-xs text-slate-300 block mb-2 font-bold">2. نوع العطل أو الخدمة المطلوبة:</label>
+                  <select id="calc-issue-select" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500 font-semibold"></select>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-400">
+                ⚡ تشمل الأسعار الفحص الفني المجاني، قطع الغيار الأصلية، والتركيب الفوري بأيدي مهندسين معتمدين.
+              </div>
+            </div>
+
+            <!-- Right Result Card (5 Cols) -->
+            <div class="lg:col-span-5 glass-box p-6 border-cyan-500/40 bg-slate-950/80 flex flex-col justify-between space-y-5">
+              <div>
+                <span class="text-xs text-slate-400 block mb-1">ملخص الخدمة المقدرة:</span>
+                <h4 id="calc-summary-device" class="text-base font-bold text-white mb-4 leading-tight">iPhone 16 Pro Max — تبديل شاشة</h4>
+                
+                <div class="space-y-3 pt-3 border-t border-slate-800/80 text-xs">
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400">السعر التقديري في أبو غريب:</span>
+                    <span id="calc-price-result" class="text-2xl font-black text-cyan-300 font-mono">185,000 د.ع</span>
+                  </div>
+
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400">المدة الزمنية التقريبية:</span>
+                    <span id="calc-time-result" class="text-white font-bold">45 دقيقة</span>
+                  </div>
+
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400">الضمان الممنوح:</span>
+                    <span id="calc-warranty-result" class="text-emerald-400 font-bold">ضمان 6 أشهر</span>
+                  </div>
+                </div>
+              </div>
+
+              <button onclick="window.MobilyaApp.bookMaintenanceWhatsApp()" class="w-full py-3 rounded-xl btn-electric text-xs font-bold flex items-center justify-center gap-2">
+                <span>احجز موعد صيانة عبر الواتساب</span>
+                <span>💬</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. MARKET PRICE INDEX (مؤشر أسعار السوق في أبو غريب 📊) -->
+    <section id="market-prices-section" class="py-14 border-t border-slate-900 bg-[#070a12]">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold mb-1">
+              <span>📊</span>
+              <span>مؤشر الشفافية ومقارنة الأسعار</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">مؤشر أسعار السوق في أبو غريب</h2>
+            <p class="text-xs text-slate-400 mt-1">قارن أقل ومتوسط وأعلى سعر في محلات المنطقة قبل أن تقرر الشراء</p>
+          </div>
+        </div>
+
+        <div class="glass-box p-6 overflow-x-auto">
+          <table class="w-full text-right text-sm">
+            <thead>
+              <tr class="text-slate-400 text-xs border-b border-slate-800 pb-3">
+                <th class="pb-3 pr-2">الجهاز / الموديل</th>
+                <th class="pb-3 text-center">أقل سعر في أبو غريب</th>
+                <th class="pb-3 text-center">متوسط السعر</th>
+                <th class="pb-3 text-center">أعلى سعر</th>
+                <th class="pb-3 text-center">المحلات المتوفرة</th>
+                <th class="pb-3 pl-2 text-left">حالة السعر</th>
+              </tr>
+            </thead>
+            <tbody id="market-price-table-body">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. LATEST PRODUCTS (أحدث الهواتف والإكسسوارات) -->
+    <section id="products-section" class="py-14 border-t border-slate-900 bg-[#080c16]/40">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">أحدث الأجهزة والإكسسوارات المعروضة</h2>
+            <p class="text-xs text-slate-400 mt-1">أسعار دقيقة ومحدثة بالدينار العراقي (د.ع) مع حالة التوفر</p>
+          </div>
+        </div>
+
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8. CUSTOMER REVIEWS (آراء وتجارب الزبائن الحقيقية ⭐) -->
+    <section id="reviews-section" class="py-14 border-t border-slate-900 bg-[#070a12]">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-xs font-bold text-amber-400 mb-1 block">⭐ تجارب موثقة</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white">ماذا يقول زبائن محلات قضاء أبو غريب؟</h2>
+          <p class="text-xs text-slate-400 mt-1">تجارب حقيقية لزبائن اشتروا هواتف وصلحوا أجهزتهم عبر منصة Mobilya</p>
+        </div>
+
+        <div id="customer-reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 9. MERCHANT ONBOARDING (انضم كشريك) -->
+    <section class="py-14 border-t border-slate-900 bg-gradient-to-r from-purple-950/30 via-[#070b14] to-indigo-950/30">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+        <div class="glass-box p-8 sm:p-10 border-purple-500/30 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div class="absolute -right-16 -top-16 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 max-w-3xl space-y-3">
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-purple-600/20 text-purple-300 border border-purple-500/30 inline-block">
+              🏪 لأصحاب محلات الموبايل ومراكز الصيانة في قضاء أبو غريب
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-black text-white">هل تمتلك محلاً أو مركز صيانة في أبو غريب؟</h3>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+              انضم إلى شبكة Mobilya الرقمية، أنشئ صفحتك الموثقة مجاناً، اعرض أجهزتك وأسعار الصيانة، واستقبل طلبات زبائن منطقتك مباشرة على الواتساب بدون أي عمولات.
+            </p>
+          </div>
+          <div class="relative z-10 flex-shrink-0 w-full md:w-auto">
+            <button onclick="window.MobilyaApp.openAuthModal()" class="w-full md:w-auto py-3.5 px-8 rounded-xl btn-electric text-sm font-bold shadow-xl shadow-cyan-500/20 hover:scale-105 transition-all text-center">
+              سجل محلك مجاناً الآن ←
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== VIEW: STORE FULL PAGE (عرض المحل بالكامل على الشاشة) ==================== -->
+  <main id="view-store-page" class="view-container">
+    <!-- Top Back Bar -->
+    <div class="border-b border-slate-800 bg-[#070b14]/90 backdrop-blur sticky top-16 z-30 py-3">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 flex items-center justify-between">
+        <button onclick="window.MobilyaApp.goHome()" class="flex items-center gap-2 py-2 px-4 rounded-xl btn-glass-secondary text-xs font-bold text-slate-200 hover:text-white hover:border-purple-500 transition-all">
+          <span>←</span>
+          <span>العودة إلى سوق أبو غريب</span>
+        </button>
+        <div class="flex items-center gap-3">
+          <span id="store-page-nav-badge" class="hidden sm:inline-block px-3 py-1 rounded-full bg-purple-900/30 text-purple-300 border border-purple-500/30 text-xs font-bold">
+            🏪 صفحة المتجر الرسمية
+          </span>
+          <a id="store-page-header-wa-btn" href="#" target="_blank" class="py-2 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-600/20 transition-all">
+            <span>واتساب المحل</span>
+            <span>💬</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store Hero Banner -->
+    <div class="relative overflow-hidden border-b border-slate-800 bg-gradient-to-b from-[#0b0f19] via-[#090d16] to-[#070b14]">
+      <!-- Ambient Glow & Cover Background -->
+      <div id="store-page-cover" class="absolute inset-0 bg-cover bg-center opacity-25 filter blur-sm scale-105 pointer-events-none transition-all duration-700"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#070b14] via-[#070b14]/90 to-transparent"></div>
+
+      <div class="relative z-10 max-w-[1360px] mx-auto px-4 sm:px-6 pt-10 pb-12">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <img id="store-page-logo" src="" alt="Store Logo" class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl object-cover border-2 border-purple-500/50 shadow-2xl bg-slate-900 flex-shrink-0 glowing-ring" />
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <h1 id="store-page-name" class="text-2xl sm:text-4xl font-black text-white">اسم المحل</h1>
+                <span id="store-page-verified-badge" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                  <span>✓</span>
+                  <span>موثق رسمياً في قضاء أبو غريب</span>
+                </span>
+              </div>
+              <p id="store-page-desc" class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                وصف المتجر...
+              </p>
+              <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-300 pt-1">
+                <span id="store-page-loc" class="flex items-center gap-1.5">📍 <span class="text-white font-medium">أبو غريب</span></span>
+                <span id="store-page-hours" class="flex items-center gap-1.5">🕒 <span class="text-white font-medium">9:00 ص - 11:00 م</span></span>
+                <span id="store-page-phone" class="flex items-center gap-1.5 font-mono text-cyan-300">📞 <span>0770...</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct CTA Buttons -->
+          <div class="flex sm:flex-row md:flex-col gap-3 w-full sm:w-auto flex-shrink-0">
+            <a id="store-page-wa-action" href="#" target="_blank" class="flex-1 sm:flex-initial py-3 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/25 transition-all text-center">
+              <span>مراسلة عبر الواتساب</span>
+              <span class="text-lg">💬</span>
+            </a>
+            <a id="store-page-call-action" href="#" class="flex-1 sm:flex-initial py-3 px-6 rounded-2xl btn-glass-secondary text-slate-200 hover:text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 text-center transition-all">
+              <span>اتصال هاتفي</span>
+              <span>📞</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Store KPI Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mt-8 pt-6 border-t border-slate-800/80">
+          <div class="glass-box p-4 rounded-2xl border-slate-800 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center text-lg flex-shrink-0">📱</span>
+            <div>
+              <span class="text-[10px] text-slate-400 block font-semibold">الهواتف والأجهزة</span>
+              <span id="store-kpi-products" class="text-lg sm:text-xl font-bold font-mono text-white">0</span>
+            </div>
+          </div>
+          <div class="glass-box p-4 rounded-2xl border-slate-800 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-cyan-600/20 text-cyan-400 flex items-center justify-center text-lg flex-shrink-0">🛠️</span>
+            <div>
+              <span class="text-[10px] text-slate-400 block font-semibold">خدمات الصيانة</span>
+              <span id="store-kpi-services" class="text-lg sm:text-xl font-bold font-mono text-white">0</span>
+            </div>
+          </div>
+          <div class="glass-box p-4 rounded-2xl border-slate-800 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-rose-600/20 text-rose-400 flex items-center justify-center text-lg flex-shrink-0">🔥</span>
+            <div>
+              <span class="text-[10px] text-slate-400 block font-semibold">العروض الخاصة</span>
+              <span id="store-kpi-offers" class="text-lg sm:text-xl font-bold font-mono text-white">0</span>
+            </div>
+          </div>
+          <div class="glass-box p-4 rounded-2xl border-slate-800 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-amber-600/20 text-amber-400 flex items-center justify-center text-lg flex-shrink-0">⭐</span>
+            <div>
+              <span class="text-[10px] text-slate-400 block font-semibold">تقييم الزبائن</span>
+              <div class="flex items-center gap-1.5">
+                <span id="store-kpi-rating" class="text-lg sm:text-xl font-black font-mono text-amber-400">5.0</span>
+                <span id="store-kpi-reviews-count" class="text-[10px] text-slate-400 font-mono">(0 تقييم)</span>
+              </div>
+            </div>
+          </div>
+          <div class="glass-box p-4 rounded-2xl border-slate-800 flex items-center gap-3 col-span-2 sm:col-span-1">
+            <span class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0">🛡️</span>
+            <div>
+              <span class="text-[10px] text-slate-400 block font-semibold">حالة الاعتماد</span>
+              <span id="store-kpi-verified" class="text-xs sm:text-sm font-bold text-emerald-300">معتمد وموثق</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store In-Page Navigation Bar -->
+    <div class="sticky top-28 z-20 bg-[#070b14]/95 backdrop-blur border-b border-slate-800 py-3">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 overflow-x-auto">
+        <div class="flex items-center gap-2 text-xs font-bold flex-shrink-0">
+          <a href="#store-products-sec" class="py-2 px-4 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 transition-colors flex items-center gap-1.5">
+            <span>📱 الهواتف والأجهزة</span>
+            <span id="store-nav-products-count" class="px-2 py-0.5 rounded-full bg-purple-900/60 text-[10px] font-mono">0</span>
+          </a>
+          <a href="#store-services-sec" class="py-2 px-4 rounded-xl bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/30 transition-colors flex items-center gap-1.5">
+            <span>🛠️ خدمات الصيانة</span>
+            <span id="store-nav-services-count" class="px-2 py-0.5 rounded-full bg-cyan-900/60 text-[10px] font-mono">0</span>
+          </a>
+          <a href="#store-offers-sec" class="py-2 px-4 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 transition-colors flex items-center gap-1.5">
+            <span>🔥 العروض الحصرية</span>
+            <span id="store-nav-offers-count" class="px-2 py-0.5 rounded-full bg-rose-900/60 text-[10px] font-mono">0</span>
+          </a>
+          <a href="#store-reviews-sec" class="py-2 px-4 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 transition-colors flex items-center gap-1.5">
+            <span>⭐ تقييمات الزبائن</span>
+            <span id="store-nav-reviews-count" class="px-2 py-0.5 rounded-full bg-amber-900/60 text-[10px] font-mono">0</span>
+          </a>
+          <a href="#store-info-sec" class="py-2 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1.5">
+            <span>📍 العنوان والتواصل</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store Full Page Sections -->
+    <div class="max-w-[1360px] mx-auto px-4 sm:px-6 py-10 space-y-16">
+      
+      <!-- SECTION 1: PRODUCTS IN STORE -->
+      <section id="store-products-sec" class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xl">📱</span>
+              <h2 class="text-2xl font-black text-white">الهواتف والأجهزة المعروضة في المتجر</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-400">تصفح كافة الأجهزة المتوفرة في صالة العرض مع الأسعار بالدينار العراقي والضمان</p>
+          </div>
+          <div class="w-full sm:w-72">
+            <input type="text" id="store-product-search" oninput="window.MobilyaApp.filterStoreProducts(this.value)" placeholder="ابحث داخل هذا المحل..." class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" />
+          </div>
+        </div>
+
+        <div id="store-page-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- SECTION 2: STORE OFFERS (العروض الحصرية للمتجر) -->
+      <section id="store-offers-sec" class="space-y-6">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xl">🔥</span>
+            <h2 class="text-2xl font-black text-white">العروض والخصومات الخاصة بالمتجر</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400">صفقات حصرية بأسعار مخفضة لفترة محدودة داخل قضاء أبو غريب</p>
+        </div>
+
+        <div id="store-page-offers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- SECTION 3: STORE SERVICES (خدمات الصيانة والبرمجة) -->
+      <section id="store-services-sec" class="space-y-6">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xl">🛠️</span>
+            <h2 class="text-2xl font-black text-white">خدمات الصيانة والبرمجة المعتمدة</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400">صيانة فورية بأحدث الأجهزة مع قطع أصلية وضمان فحص معتمد داخل قضاء أبو غريب</p>
+        </div>
+
+        <div id="store-page-services-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- SECTION 4: STORE LOCATION & INFO (العنوان وساعات العمل) -->
+      <section id="store-info-sec" class="space-y-6">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xl">📍</span>
+            <h2 class="text-2xl font-black text-white">العنوان وساعات العمل ومعلومات التواصل</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400">زوروا صالة العرض أو تواصلوا مباشرة مع إدارة المحل في قضاء أبو غريب</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="glass-card p-6 rounded-2xl border-slate-800 space-y-4">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center text-lg">📍</span>
+              <div>
+                <span class="text-xs text-slate-400 font-semibold block">الموقع والعنوان</span>
+                <h4 id="store-info-address" class="text-sm font-bold text-white">أبو غريب - الشارع العام</h4>
+              </div>
+            </div>
+            <p id="store-info-landmark" class="text-xs text-slate-300 leading-relaxed">
+              قريب من المعالم الرئيسية في قضاء أبو غريب لسهولة الوصول.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl border-slate-800 space-y-4">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-cyan-600/20 text-cyan-400 flex items-center justify-center text-lg">🕒</span>
+              <div>
+                <span class="text-xs text-slate-400 font-semibold block">أوقات العمل اليومية</span>
+                <h4 id="store-info-hours" class="text-sm font-bold text-white">9:00 ص - 11:00 م</h4>
+              </div>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              يستقبل الزبائن طيلة أيام الأسبوع في قضاء أبو غريب.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl border-slate-800 space-y-4">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-lg">💬</span>
+              <div>
+                <span class="text-xs text-slate-400 font-semibold block">التواصل المباشر</span>
+                <h4 id="store-info-phone" class="text-sm font-mono font-bold text-emerald-300">0770...</h4>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <a id="store-info-wa-btn" href="#" target="_blank" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 text-xs font-bold text-center flex items-center justify-center gap-1.5 transition-colors">
+                <span>واتساب</span>
+                <span>💬</span>
+              </a>
+              <a id="store-info-call-btn" href="#" class="flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold text-center flex items-center justify-center gap-1.5 transition-colors">
+                <span>اتصال</span>
+                <span>📞</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Box -->
+        <div class="glass-box p-6 sm:p-8 border-purple-500/30 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-purple-600/20 text-purple-300 border border-purple-500/40 flex items-center justify-center text-3xl flex-shrink-0">
+              🛡️
+            </div>
+            <div>
+              <h3 class="text-lg font-black text-white">ضمان وأمان التعامل في سوق أبو غريب</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mt-1">
+                كافة المحلات المعتمدة في منصة Mobilya تخضع للتحقق الميداني والتوثيق الرسمي لضمان أجهزة أصلية وأسعار حقيقية بالدينار العراقي.
+              </p>
+            </div>
+          </div>
+          <button onclick="window.MobilyaApp.goHome()" class="w-full sm:w-auto py-3 px-6 rounded-xl btn-electric text-xs font-bold flex-shrink-0 text-center">
+            تصفح محلات أخرى في أبو غريب ←
+          </button>
+        </div>
+      </section>
+
+      <!-- SECTION 5: STORE REVIEWS & RATINGS (تقييمات وآراء الزبائن) -->
+      <section id="store-reviews-sec" class="space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xl">⭐</span>
+              <h2 class="text-2xl font-black text-white">تقييمات وآراء الزبائن الحقيقية</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-400">تجارب حقيقية وموثقة من أهالي قضاء أبو غريب وأبو منيصير مع هذا المتجر</p>
+          </div>
+          <button onclick="window.MobilyaApp.focusReviewForm()" class="py-2.5 px-5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 transition-all shadow-lg shadow-amber-500/20 self-start sm:self-auto">
+            <span>✍️ أضف تقييمك الآن</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Left Column: Overall Score & Add Review Form -->
+          <div class="lg:col-span-5 space-y-6">
+            <!-- Score Card -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">متوسط تقييم المحل</span>
+                <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 font-semibold">تقييمات معتمدة ✓</span>
+              </div>
+              <div class="flex items-baseline gap-3">
+                <span id="store-detail-avg-rating" class="text-5xl font-black text-white font-mono">5.0</span>
+                <div>
+                  <div id="store-detail-stars-visual" class="text-amber-400 text-lg tracking-wider">★★★★★</div>
+                  <span id="store-detail-total-reviews" class="text-xs text-slate-400">بناءً على 0 تقييم من الزبائن</span>
+                </div>
+              </div>
+
+              <!-- Rating Progress Bars -->
+              <div class="space-y-2 pt-3 border-t border-slate-800/80 text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="w-12 text-slate-400 text-[11px]">5 نجوم</span>
+                  <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="rating-bar-5" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 100%"></div>
+                  </div>
+                  <span id="rating-count-5" class="w-6 text-left text-slate-400 font-mono text-[11px]">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-12 text-slate-400 text-[11px]">4 نجوم</span>
+                  <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="rating-bar-4" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                  <span id="rating-count-4" class="w-6 text-left text-slate-400 font-mono text-[11px]">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-12 text-slate-400 text-[11px]">3 نجوم</span>
+                  <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="rating-bar-3" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                  <span id="rating-count-3" class="w-6 text-left text-slate-400 font-mono text-[11px]">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-12 text-slate-400 text-[11px]">نجمتان</span>
+                  <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="rating-bar-2" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                  <span id="rating-count-2" class="w-6 text-left text-slate-400 font-mono text-[11px]">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-12 text-slate-400 text-[11px]">نجمة واحدة</span>
+                  <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="rating-bar-1" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                  <span id="rating-count-1" class="w-6 text-left text-slate-400 font-mono text-[11px]">0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Review Interactive Form Card -->
+            <div id="review-form-container" class="glass-card p-6 rounded-2xl border border-amber-500/30 space-y-4">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">✍️</span>
+                <h3 class="font-bold text-base text-white">أضف تقييمك وتجربتك</h3>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                رأيك يهم مجتمع أبو غريب ويساعد الزبائن في اختيار المحل الأنسب لهم.
+              </p>
+
+              <!-- Star Picker -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">اختر التقييم بالنجوم:</label>
+                <div id="star-picker-container" class="flex items-center gap-2 text-2xl select-none">
+                  <button type="button" onclick="window.MobilyaApp.setReviewRating(1)" class="star-btn transition-transform hover:scale-125 text-amber-400" data-val="1">★</button>
+                  <button type="button" onclick="window.MobilyaApp.setReviewRating(2)" class="star-btn transition-transform hover:scale-125 text-amber-400" data-val="2">★</button>
+                  <button type="button" onclick="window.MobilyaApp.setReviewRating(3)" class="star-btn transition-transform hover:scale-125 text-amber-400" data-val="3">★</button>
+                  <button type="button" onclick="window.MobilyaApp.setReviewRating(4)" class="star-btn transition-transform hover:scale-125 text-amber-400" data-val="4">★</button>
+                  <button type="button" onclick="window.MobilyaApp.setReviewRating(5)" class="star-btn transition-transform hover:scale-125 text-amber-400" data-val="5">★</button>
+                  <span id="selected-rating-text" class="text-xs font-bold text-amber-300 mr-2">ممتاز (5 نجوم)</span>
+                </div>
+                <input type="hidden" id="review-rating-val" value="5" />
+              </div>
+
+              <!-- Customer Name -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">اسمك الكريم أو كنيتك:</label>
+                <input type="text" id="review-customer-name" placeholder="مثال: أحمد العبيدي / زبون من أبو منيصير" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500" />
+              </div>
+
+              <!-- Comment Textarea -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">رأيك وتفاصيل تجربتك مع المحل:</label>
+                <textarea id="review-comment-text" rows="3" placeholder="شاركنا تجربتك (جودة الأجهزة، تعامل الكادر، سرعة الصيانة، الأسعار...)" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button id="btn-submit-review" onclick="window.MobilyaApp.submitStoreReview()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer">
+                <span>إرسال التقييم 🌟</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Customer Reviews Feed -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="text-xs font-bold text-slate-400">جميع الآراء والتقييمات المعتمدة</span>
+              <span id="store-reviews-counter-badge" class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[11px] font-mono">0 تقييم</span>
+            </div>
+
+            <div id="store-page-reviews-list" class="space-y-4">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 2: STORE OWNER DASHBOARD ==================== -->
+  <main id="view-store-dashboard" class="view-container">
+    <div class="max-w-[1360px] mx-auto px-4 sm:px-6 py-8">
+      
+      <!-- Store Header Card -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 glass-box p-6 border-purple-500/30">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <h1 id="dash-store-name" class="text-2xl font-black text-white">لوحة تحكم المحل</h1>
+            <span id="dash-store-status-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">
+              🟢 متجر معتمد
+            </span>
+          </div>
+          <p id="dash-store-desc" class="text-xs text-slate-400">إدارة المنتجات وأسعار الصيانة وطلبات الزبائن في قضاء أبو غريب</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.MobilyaApp.refreshStoreDashboard()" class="py-2.5 px-4 rounded-xl btn-glass-secondary text-xs font-semibold">
+            🔄 تحديث
+          </button>
+          <button onclick="window.MobilyaApp.goHome()" class="py-2.5 px-5 rounded-xl btn-electric text-xs font-bold">
+            العودة للمنصة 🏠
+          </button>
+        </div>
+      </div>
+
+      <!-- Store KPIs -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="glass-box p-5">
+          <span class="text-xs text-slate-400 block mb-1">المنتجات المعروضة</span>
+          <div id="dash-kpi-products" class="text-2xl font-bold text-purple-400 font-mono">0</div>
+          <span class="text-[10px] text-slate-400">معروضة للزبائن</span>
+        </div>
+        <div class="glass-box p-5">
+          <span class="text-xs text-slate-400 block mb-1">خدمات الصيانة</span>
+          <div id="dash-kpi-services" class="text-2xl font-bold text-cyan-300 font-mono">0</div>
+          <span class="text-[10px] text-emerald-400">أسعار فورية</span>
+        </div>
+        <div class="glass-box p-5">
+          <span class="text-xs text-slate-400 block mb-1">استفسارات الواتساب</span>
+          <div class="text-2xl font-bold text-emerald-400 font-mono">840</div>
+          <span class="text-[10px] text-emerald-400">تواصل مباشر</span>
+        </div>
+        <div class="glass-box p-5">
+          <span class="text-xs text-slate-400 block mb-1">تقييم الزبائن</span>
+          <div class="text-2xl font-bold text-amber-400 font-mono">4.9 ⭐</div>
+          <span class="text-[10px] text-slate-400">تقييم معتمد</span>
+        </div>
+      </div>
+
+      <!-- Forms Grid: Add Product & Add Service -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+        
+        <!-- Form 1: Add New Product -->
+        <div class="lg:col-span-7 glass-box p-6 border-purple-500/20">
+          <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-800">
+            <span class="text-base">📱</span>
+            <h3 class="text-sm font-bold text-white">إضافة منتج جديد للمتجر</h3>
+          </div>
+          <form id="form-add-product" onsubmit="window.MobilyaApp.submitNewProduct(event)" class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-slate-400 block mb-1 font-bold">اسم المنتج / الموديل:</label>
+                <input type="text" id="prod-name" placeholder="مثلاً: iPhone 16 Pro Max 256GB" required class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" />
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1 font-bold">القسم:</label>
+                <select id="prod-category" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+                  <option value="1">📱 الهواتف والأجهزة</option>
+                  <option value="2">💳 الخطوط والأرقام</option>
+                  <option value="3">🎧 الإكسسوارات والشواحن</option>
+                  <option value="4">⌚ الساعات الذكية</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-slate-400 block mb-1 font-bold">السعر بالدينار العراقي (د.ع):</label>
+                <input type="number" id="prod-price" placeholder="1740000" required class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-purple-500" />
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1 font-bold">حالة التوفر:</label>
+                <select id="prod-availability" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500">
+                  <option value="available">متوفر في المحل</option>
+                  <option value="limited">كمية محدودة</option>
+                  <option value="unavailable">غير متوفر حالياً</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-slate-400 block mb-1 font-bold">رابط صورة المنتج (URL):</label>
+              <input type="url" id="prod-image" placeholder="https://images.unsplash.com/..." class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-purple-500" />
+            </div>
+
+            <div>
+              <label class="text-slate-400 block mb-1 font-bold">وصف وتفاصيل الجهاز:</label>
+              <textarea id="prod-desc" rows="2" placeholder="الضمان، السعة، حالة الكرتونة، اللون..." class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500"></textarea>
+            </div>
+
+            <button type="submit" class="py-2.5 px-6 rounded-xl btn-electric font-bold text-xs">
+              حفظ ونشر المنتج 🚀
+            </button>
+          </form>
+        </div>
+
+        <!-- Form 2: Add New Service -->
+        <div class="lg:col-span-5 glass-box p-6 border-cyan-500/20">
+          <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-800">
+            <span class="text-base">🛠️</span>
+            <h3 class="text-sm font-bold text-white">إضافة خدمة صيانة</h3>
+          </div>
+          <form id="form-add-service" onsubmit="window.MobilyaApp.submitNewService(event)" class="space-y-3 text-xs">
+            <div>
+              <label class="text-slate-400 block mb-1 font-bold">اسم الخدمة:</label>
+              <input type="text" id="srv-name" placeholder="مثلاً: تبديل شاشة iPhone 15 Pro أصلية" required class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500" />
+            </div>
+
+            <div>
+              <label class="text-slate-400 block mb-1 font-bold">السعر التقديري بالدينار (د.ع):</label>
+              <input type="number" id="srv-price" placeholder="185000" required class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-cyan-500" />
+            </div>
+
+            <div>
+              <label class="text-slate-400 block mb-1 font-bold">التفاصيل والضمان:</label>
+              <textarea id="srv-desc" rows="2" placeholder="المدة، نوع القطعة، فترة الضمان..." class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500"></textarea>
+            </div>
+
+            <button type="submit" class="py-2.5 px-6 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs">
+              إضافة خدمة الصيانة 🛠️
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Store Products Table -->
+      <div class="glass-box p-6 border-slate-800">
+        <h3 class="text-sm font-bold text-white mb-4">قائمة المنتجات المعروضة في متجرك</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead>
+              <tr class="text-slate-400 border-b border-slate-800 pb-2">
+                <th class="pb-2">المنتج</th>
+                <th class="pb-2 text-center">القسم</th>
+                <th class="pb-2 text-center">السعر</th>
+                <th class="pb-2 text-center">حالة التوفر</th>
+                <th class="pb-2 text-left">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="store-products-table-body" class="divide-y divide-slate-800/60">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 3: ADMIN DASHBOARD ==================== -->
+  <main id="view-admin-dashboard" class="view-container">
+    <div class="max-w-[1360px] mx-auto px-4 sm:px-6 py-8">
+      
+      <!-- Admin Header -->
+      <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
+        <div>
+          <h1 class="text-2xl font-black text-white flex items-center gap-2">
+            <span>لوحة الإدارة المركزية — Mobilya Admin</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">
+              👑 الإدارة العامة
+            </span>
+          </h1>
+          <p class="text-xs text-slate-400 mt-1">الإشراف على محلات قضاء أبو غريب وتوثيقها واعتماد الأسعار ومراجعة الطلبات</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.MobilyaApp.refreshAdminDashboard()" class="py-2 px-4 rounded-xl btn-glass-secondary text-xs font-bold">
+            🔄 تحديث البيانات
+          </button>
+          <button onclick="window.MobilyaApp.goHome()" class="py-2 px-4 rounded-xl btn-electric text-xs font-bold">
+            العودة للمنصة 🏠
+          </button>
+        </div>
+      </div>
+
+      <!-- Real System KPIs from API -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <div class="glass-box p-4 text-center">
+          <span class="text-xs text-slate-400 block mb-1">المستخدمين</span>
+          <div id="admin-kpi-users" class="text-2xl font-bold text-white font-mono">0</div>
+        </div>
+        <div class="glass-box p-4 text-center">
+          <span class="text-xs text-slate-400 block mb-1">المحلات المعتمدة</span>
+          <div id="admin-kpi-approved-stores" class="text-2xl font-bold text-emerald-400 font-mono">0</div>
+        </div>
+        <div class="glass-box p-4 text-center">
+          <span class="text-xs text-slate-400 block mb-1">طلبات معلقة</span>
+          <div id="admin-kpi-pending-stores" class="text-2xl font-bold text-amber-400 font-mono">0</div>
+        </div>
+        <div class="glass-box p-4 text-center">
+          <span class="text-xs text-slate-400 block mb-1">المنتجات الكلية</span>
+          <div id="admin-kpi-products" class="text-2xl font-bold text-purple-400 font-mono">0</div>
+        </div>
+        <div class="glass-box p-4 text-center">
+          <span class="text-xs text-slate-400 block mb-1">خدمات الصيانة</span>
+          <div id="admin-kpi-services" class="text-2xl font-bold text-cyan-300 font-mono">0</div>
+        </div>
+      </div>
+
+      <!-- Pending Stores Section -->
+      <div class="glass-box p-6 border-amber-500/30 mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span>طلبات تسجيل المحلات المعلقة (تتطلب موافقة الإدارة)</span>
+          </h3>
+          <span id="admin-pending-count-badge" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-xs font-mono font-bold">0 طلب</span>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead>
+              <tr class="text-slate-400 border-b border-slate-800 pb-2">
+                <th class="pb-2">اسم المحل</th>
+                <th class="pb-2">المالك</th>
+                <th class="pb-2">الموقع</th>
+                <th class="pb-2">رقم الهاتف</th>
+                <th class="pb-2 text-left">إجراء الإدارة</th>
+              </tr>
+            </thead>
+            <tbody id="admin-pending-stores-body" class="divide-y divide-slate-800/60">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Approved Stores & Verification Section -->
+      <div class="glass-box p-6 border-slate-800">
+        <h3 class="text-sm font-bold text-white mb-4">المحلات المعتمدة وإدارة شارات التوثيق (Verification)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead>
+              <tr class="text-slate-400 border-b border-slate-800 pb-2">
+                <th class="pb-2">المحل</th>
+                <th class="pb-2">المنطقة</th>
+                <th class="pb-2">المنتجات</th>
+                <th class="pb-2 text-center">حالة التوثيق</th>
+                <th class="pb-2 text-left">إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="admin-approved-stores-body" class="divide-y divide-slate-800/60">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==================== LUXURY TECH FOOTER ==================== -->
+  <footer class="bg-[#04060b] border-t border-slate-900 pt-16 pb-12 text-xs text-slate-400">
+    <div class="max-w-[1360px] mx-auto px-4 sm:px-6">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-black text-white">Mobilya</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed text-xs">
+            المنصة المحلية الرائدة لربط محلات الموبايل بالزبائن في قضاء أبو غريب - بغداد. اكتشف الأجهزة، قارن الأسعار، وتواصل مباشرة.
+          </p>
+          <div class="text-[11px] text-slate-500">
+            العاصمة بغداد — جمهورية العراق
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-4">روابط سريعة</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#" onclick="window.MobilyaApp.goHome(); return false;" class="hover:text-purple-300">الرئيسية</a></li>
+            <li><a href="#" onclick="window.MobilyaApp.scrollToSection('featured-stores-section'); return false;" class="hover:text-purple-300">المحلات المعتمدة</a></li>
+            <li><a href="#" onclick="window.MobilyaApp.scrollToSection('flash-deals-section'); return false;" class="hover:text-purple-300">عروض اليوم</a></li>
+            <li><a href="#" onclick="window.MobilyaApp.scrollToSection('maintenance-calc-section'); return false;" class="hover:text-purple-300">حاسبة الصيانة الفورية</a></li>
+            <li><a href="#" onclick="window.MobilyaApp.scrollToSection('market-prices-section'); return false;" class="hover:text-purple-300">مؤشر أسعار السوق</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-4">عن المنصة والشروط</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#" class="hover:text-purple-300">عن Mobilya</a></li>
+            <li><a href="#" class="hover:text-purple-300">معايير توثيق المحلات ✅</a></li>
+            <li><a href="#" class="hover:text-purple-300">سياسة الخصوصية</a></li>
+            <li><a href="#" class="hover:text-purple-300">شروط الاستخدام</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-4">تواصل مع إدارة المنصة</h4>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li class="flex items-center gap-2">
+              <span>📞</span>
+              <span class="font-mono text-purple-300">+964 770 000 1122</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span>📧</span>
+              <span class="font-mono">support@mobilya.iq</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span>📍</span>
+              <span>بغداد - قضاء أبو غريب - الشارع العام</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-slate-900 text-center text-slate-500 text-[11px]">
+        © 2026 Mobilya. جميع الحقوق محفوظة. منصة مخصصة لسوق الهواتف والإلكترونيات المحلي.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom App Bar -->
+  <div id="mobile-bottom-app-bar"></div>
+
+  <!-- Region Switcher Modal -->
+  <div id="region-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden">
+    <div class="glass-box bg-[#090d16] border-purple-500/40 p-6 max-w-sm w-full rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
+        <h3 class="text-sm font-bold text-white">المنطقة المعتمدة حالياً 📍</h3>
+        <button onclick="window.MobilyaApp.closeRegionModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <button onclick="window.MobilyaApp.selectRegion('أبو غريب - أبو منيصير')" class="w-full p-3 rounded-xl bg-purple-600/25 border border-purple-500/40 text-white font-bold text-right flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📍</span>
+            <span>أبو غريب — أبو منيصير</span>
+          </div>
+          <span class="text-purple-300 font-mono text-[11px] bg-purple-950/60 px-2.5 py-1 rounded-lg border border-purple-500/30">مفعل (3 محلات)</span>
+        </button>
+        <p class="text-[11px] text-slate-400 leading-relaxed px-1">
+          المنصة تغطي حالياً منطقة <strong>أبو منيصير</strong> داخل قضاء أبو غريب بكافة محلاتها المعتمدة وخدمات الصيانة.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== STORE DETAILS MODAL (نافذة تصفح تفاصيل المحل) ==================== -->
+  <div id="store-details-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 modal-overlay hidden" onclick="if(event.target === this) window.MobilyaApp.closeStoreDetails()">
+    <div class="glass-box bg-[#090d16] border border-purple-500/40 w-full max-w-4xl max-h-[90vh] rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden text-slate-200 animate-fade-in" onclick="event.stopPropagation()">
+      
+      <!-- Store Modal Header -->
+      <div class="relative bg-gradient-to-r from-purple-950/70 via-[#0a0f1d] to-indigo-950/70 p-5 sm:p-6 border-b border-slate-800 flex-shrink-0">
+        <!-- Close Button -->
+        <button onclick="window.MobilyaApp.closeStoreDetails()" class="absolute top-4 left-4 z-20 w-8 h-8 rounded-full bg-slate-900/90 border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors text-base font-bold">
+          ✕
+        </button>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+          <div class="flex items-start sm:items-center gap-4">
+            <img id="modal-store-logo" src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=200" alt="Store Logo" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-purple-500/40 shadow-lg bg-slate-900 flex-shrink-0" />
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <h2 id="modal-store-name" class="text-xl sm:text-2xl font-black text-white">اسم المحل</h2>
+                <span id="modal-store-verified" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold flex items-center gap-1">
+                  <span>✓</span><span>موثق رسمياً</span>
+                </span>
+              </div>
+              <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-300">
+                <span id="modal-store-location" class="flex items-center gap-1">📍 <span>أبو غريب - الشارع العام</span></span>
+                <span id="modal-store-hours" class="flex items-center gap-1">🕒 <span>9:00 ص - 11:00 م</span></span>
+                <span id="modal-store-phone" class="flex items-center gap-1 font-mono text-cyan-300">📞 <span>0770...</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Buttons in Header -->
+          <div class="flex items-center gap-2 self-stretch sm:self-center">
+            <a id="modal-store-whatsapp-btn" href="#" target="_blank" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all">
+              <span>تواصل واتساب</span>
+              <span class="text-base">💬</span>
+            </a>
+            <a id="modal-store-call-btn" href="#" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+              <span>اتصال</span>
+              <span>📞</span>
+            </a>
+          </div>
+        </div>
+
+        <p id="modal-store-description" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed max-w-3xl">
+          مركز متخصص ببيع وصيانة أجهزة الموبايل والإكسسوارات في قضاء أبو غريب.
+        </p>
+      </div>
+
+      <!-- Navigation Tabs inside Store -->
+      <div class="flex items-center gap-2 px-5 sm:px-6 pt-3 pb-2 border-b border-slate-800/80 bg-slate-950/80 flex-shrink-0 text-xs font-bold overflow-x-auto">
+        <button id="tab-store-products-btn" onclick="window.MobilyaApp.switchStoreModalTab('products')" class="px-4 py-2 rounded-xl bg-purple-600 text-white transition-colors flex items-center gap-1.5 flex-shrink-0">
+          <span>📱 الهواتف والأجهزة</span>
+          <span id="modal-store-products-count" class="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-mono">0</span>
+        </button>
+        <button id="tab-store-services-btn" onclick="window.MobilyaApp.switchStoreModalTab('services')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 flex-shrink-0">
+          <span>🛠️ خدمات الصيانة</span>
+          <span id="modal-store-services-count" class="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] font-mono">0</span>
+        </button>
+        <button id="tab-store-info-btn" onclick="window.MobilyaApp.switchStoreModalTab('info')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 flex-shrink-0">
+          <span>📍 العنوان والتواصل</span>
+        </button>
+      </div>
+
+      <!-- Scrollable Tab Content Area -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+        
+        <!-- Tab 1: Products Grid -->
+        <div id="tab-store-products-content">
+          <div id="modal-store-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Products rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab 2: Services List -->
+        <div id="tab-store-services-content" class="hidden">
+          <div id="modal-store-services-list" class="space-y-3">
+            <!-- Services rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab 3: Store Info -->
+        <div id="tab-store-info-content" class="hidden space-y-4">
+          <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4 text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <span class="text-slate-400 block font-semibold mb-1">📍 العنوان بالتفصيل:</span>
+                <span id="modal-store-full-address" class="text-white font-bold text-sm block">أبو غريب - الشارع العام</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <span class="text-slate-400 block font-semibold mb-1">🕒 أوقات الدوام والعمل:</span>
+                <span id="modal-store-full-hours" class="text-white font-bold text-sm block">9:00 ص - 11:00 م</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <span class="text-slate-400 block font-semibold mb-1">👤 مسؤول المحل:</span>
+                <span id="modal-store-owner-name" class="text-purple-300 font-bold text-sm block">إدارة المحل</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <span class="text-slate-400 block font-semibold mb-1">💬 رقم الواتساب المباشر:</span>
+                <span id="modal-store-full-whatsapp" class="text-emerald-400 font-mono font-bold text-sm block">0770...</span>
+              </div>
+            </div>
+            
+            <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-500/30 flex items-center gap-3">
+              <span class="text-2xl">🛡️</span>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                هذا المحل معتمد رسمياً ضمن شبكة محلات قضاء أبو غريب في منصة Mobilya، ويضمن صحة المواصفات والأسعار المعلنة بالدينار العراقي.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Auth Modal (Real Login & Register with Tabs & Quick Demo) -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden">
+    <div class="glass-box bg-[#090d16] border-purple-500/40 p-6 max-w-md w-full rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
+        <h3 id="auth-modal-title" class="text-sm font-bold text-white">تسجيل الدخول إلى Mobilya 👋</h3>
+        <button onclick="window.MobilyaApp.closeAuthModal()" class="text-slate-400 hover:text-white text-base">✕</button>
+      </div>
+
+      <!-- Auth Tabs -->
+      <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-950/80 border border-slate-800 mb-4 text-xs font-bold text-center">
+        <button type="button" id="tab-auth-login" onclick="window.MobilyaApp.switchAuthTab('login')" class="py-2 rounded-lg bg-purple-600 text-white">
+          تسجيل الدخول
+        </button>
+        <button type="button" id="tab-auth-register" onclick="window.MobilyaApp.switchAuthTab('register')" class="py-2 rounded-lg text-slate-400 hover:text-white">
+          حساب جديد
+        </button>
+      </div>
+
+      <!-- Form 1: Login -->
+      <form id="form-login" onsubmit="window.MobilyaApp.handleLogin(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">البريد الإلكتروني:</label>
+          <input type="email" id="login-email" placeholder="example@mobilya.iq" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:outline-none focus:border-purple-500" required />
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">كلمة المرور:</label>
+          <input type="password" id="login-password" placeholder="••••••••" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500" required />
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl btn-electric font-bold text-xs mt-2">
+          تسجيل الدخول 🚀
+        </button>
+
+        <!-- Quick Demo One-Click Login -->
+        <div class="pt-3 border-t border-slate-800/80 space-y-1.5">
+          <span class="text-[10px] text-slate-400 block font-semibold text-center">أو تسجيل سريع بنقرة واحدة (تجريبي):</span>
+          <div class="grid grid-cols-3 gap-1.5 text-[10px]">
+            <button type="button" onclick="window.MobilyaApp.quickLoginDemo('admin')" class="p-1.5 rounded-lg bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-600/40 font-bold text-center">
+              👑 كمدير
+            </button>
+            <button type="button" onclick="window.MobilyaApp.quickLoginDemo('store_owner')" class="p-1.5 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/30 hover:bg-purple-600/40 font-bold text-center">
+              🏪 كصاحب متجر
+            </button>
+            <button type="button" onclick="window.MobilyaApp.quickLoginDemo('customer')" class="p-1.5 rounded-lg bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-600/40 font-bold text-center">
+              👤 كزبون
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Form 2: Register -->
+      <form id="form-register" onsubmit="window.MobilyaApp.handleRegister(event)" class="space-y-3 text-xs hidden">
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">نوع الحساب:</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer">
+              <input type="radio" name="reg-role" value="customer" checked class="accent-purple-600" />
+              <span class="text-white font-bold">👤 زبون</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer">
+              <input type="radio" name="reg-role" value="store_owner" class="accent-purple-600" />
+              <span class="text-white font-bold">🏪 صاحب محل</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">الاسم الكامل / اسم المحل:</label>
+          <input type="text" id="reg-name" placeholder="محمد السعدي" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" required />
+        </div>
+
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">البريد الإلكتروني:</label>
+          <input type="email" id="reg-email" placeholder="name@example.com" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-purple-500" required />
+        </div>
+
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">رقم الهاتف العراقي (أبو غريب):</label>
+          <input type="tel" id="reg-phone" placeholder="0770 123 4567" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-purple-500" required />
+        </div>
+
+        <div>
+          <label class="text-slate-400 block mb-1 font-bold">كلمة المرور:</label>
+          <input type="password" id="reg-password" placeholder="••••••••" minlength="6" class="w-full bg-[#0d1322] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500" required />
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-xl btn-electric font-bold text-xs mt-2">
+          إنشاء الحساب ومتابعة 🚀
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

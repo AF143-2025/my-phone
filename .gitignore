@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Local database storage (PGlite)
+database/pgdata/
+
+# Environment local secrets
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
