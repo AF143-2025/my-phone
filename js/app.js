@@ -62,10 +62,10 @@
     setupCalcEvents();
   }
 
-  // ==================== 1. AUTHENTICATION & HEADER UI ====================
+  // ==================== 1. AUTHENTICATION & HEADER + SIDE DRAWER UI ====================
   function renderHeaderAuth() {
     const container = document.getElementById('header-auth-container');
-    if (!container) return;
+    const drawerContainer = document.getElementById('drawer-auth-container');
 
     if (state.currentUser) {
       const u = state.currentUser;
@@ -77,9 +77,16 @@
           : '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">👤 زبون</span>';
 
       let dashboardBtn = '';
+      let drawerDashboardBtn = '';
       if (u.role === 'admin') {
         dashboardBtn = `
           <button onclick="window.MobilyaApp.openAdminDashboard()" class="px-3 py-1.5 rounded-xl bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-300 border border-cyan-500/40 text-xs font-bold flex items-center gap-1">
+            <span>👑</span>
+            <span>لوحة الإدارة</span>
+          </button>
+        `;
+        drawerDashboardBtn = `
+          <button onclick="window.MobilyaApp.openAdminDashboard(); window.MobilyaApp.closeSideDrawer();" class="w-full py-2.5 px-4 rounded-xl bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-300 border border-cyan-500/40 text-xs font-bold flex items-center justify-center gap-2 transition-all">
             <span>👑</span>
             <span>لوحة الإدارة</span>
           </button>
@@ -91,30 +98,99 @@
             <span>لوحة المحل</span>
           </button>
         `;
+        drawerDashboardBtn = `
+          <button onclick="window.MobilyaApp.openStoreDashboard(); window.MobilyaApp.closeSideDrawer();" class="w-full py-2.5 px-4 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 border border-purple-500/40 text-xs font-bold flex items-center justify-center gap-2 transition-all">
+            <span>🏪</span>
+            <span>لوحة إدارة المحل</span>
+          </button>
+        `;
       }
 
-      container.innerHTML = `
-        <div class="flex items-center gap-2">
-          <div class="text-right hidden sm:block">
-            <span class="text-xs font-bold text-white block">${u.name}</span>
-            <div class="flex items-center gap-1">${roleBadge}</div>
+      if (container) {
+        container.innerHTML = `
+          <div class="flex items-center gap-2">
+            <div class="text-right hidden sm:block">
+              <span class="text-xs font-bold text-white block">${u.name}</span>
+              <div class="flex items-center gap-1">${roleBadge}</div>
+            </div>
+            ${dashboardBtn}
+            <button onclick="window.MobilyaApp.handleLogout()" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-rose-400 hover:text-white text-xs font-bold">
+              خروج 🚪
+            </button>
           </div>
-          ${dashboardBtn}
-          <button onclick="window.MobilyaApp.handleLogout()" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-rose-400 hover:text-white text-xs font-bold">
-            خروج 🚪
-          </button>
-        </div>
-      `;
+        `;
+      }
+
+      if (drawerContainer) {
+        drawerContainer.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-white font-black text-base flex items-center justify-center border border-purple-400/40 shadow">
+                ${(u.name || 'م').charAt(0)}
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-xs font-bold text-white block truncate">${u.name}</span>
+                <span class="text-[10px] text-slate-400 font-mono block truncate">${u.email || u.phone || ''}</span>
+                <div class="mt-1">${roleBadge}</div>
+              </div>
+            </div>
+            ${drawerDashboardBtn}
+            <button onclick="window.MobilyaApp.handleLogout(); window.MobilyaApp.closeSideDrawer();" class="w-full py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-rose-400 hover:text-white hover:bg-rose-950/40 text-xs font-bold flex items-center justify-center gap-2 transition-all">
+              <span>تسجيل الخروج 🚪</span>
+            </button>
+          </div>
+        `;
+      }
     } else {
-      container.innerHTML = `
-        <button onclick="window.MobilyaApp.openAuthModal('login')" class="px-3.5 py-2 rounded-xl btn-glass-secondary text-xs text-slate-200 font-semibold hover:border-purple-500">
-          👤 تسجيل الدخول
-        </button>
-        <button onclick="window.MobilyaApp.openAuthModal('register')" class="flex items-center gap-1.5 py-2 px-3.5 rounded-xl btn-electric text-xs font-bold glowing-ring">
-          <span>+</span>
-          <span>أضف محلك</span>
-        </button>
-      `;
+      if (container) {
+        container.innerHTML = `
+          <button onclick="window.MobilyaApp.openAuthModal('login')" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl btn-glass-secondary text-xs text-slate-200 font-semibold hover:border-purple-500">
+            <span class="hidden sm:inline">👤</span>
+            <span>دخول</span>
+          </button>
+          <button onclick="window.MobilyaApp.openAuthModal('register')" class="flex items-center gap-1 py-1.5 sm:py-2 px-2.5 sm:px-3.5 rounded-xl btn-electric text-xs font-bold glowing-ring">
+            <span>+</span>
+            <span class="hidden sm:inline">أضف محلك</span>
+            <span class="sm:hidden">سجل</span>
+          </button>
+        `;
+      }
+
+      if (drawerContainer) {
+        drawerContainer.innerHTML = `
+          <div class="space-y-2.5 text-center">
+            <div class="text-xs font-bold text-white">أهلاً بك في سوق أبو غريب 👋</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              سجل دخولك أو أضف محلك لعرض هواتفك وخدمات الصيانة
+            </p>
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button onclick="window.MobilyaApp.openAuthModal('login'); window.MobilyaApp.closeSideDrawer();" class="py-2 px-2.5 rounded-xl btn-glass-secondary text-xs font-bold text-white hover:border-purple-500 flex items-center justify-center gap-1.5">
+                <span>👤</span>
+                <span>تسجيل الدخول</span>
+              </button>
+              <button onclick="window.MobilyaApp.openAuthModal('register'); window.MobilyaApp.closeSideDrawer();" class="py-2 px-2.5 rounded-xl btn-electric text-xs font-bold flex items-center justify-center gap-1 shadow-md shadow-purple-900/40">
+                <span>+</span>
+                <span>حساب جديد</span>
+              </button>
+            </div>
+            <!-- Quick 1-click Test Logins in Drawer -->
+            <div class="pt-2 border-t border-slate-800/80">
+              <span class="text-[10px] text-slate-400 block font-semibold mb-1.5">دخول سريع تجريبي:</span>
+              <div class="grid grid-cols-3 gap-1 text-[10px]">
+                <button type="button" onclick="window.MobilyaApp.quickLoginDemo('admin'); window.MobilyaApp.closeSideDrawer();" class="py-1 rounded-lg bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-600/40 font-bold">
+                  👑 مدير
+                </button>
+                <button type="button" onclick="window.MobilyaApp.quickLoginDemo('store_owner'); window.MobilyaApp.closeSideDrawer();" class="py-1 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/30 hover:bg-purple-600/40 font-bold">
+                  🏪 متجر
+                </button>
+                <button type="button" onclick="window.MobilyaApp.quickLoginDemo('customer'); window.MobilyaApp.closeSideDrawer();" class="py-1 rounded-lg bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-600/40 font-bold">
+                  👤 زبون
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
     }
   }
 
@@ -521,8 +597,37 @@
 
   // ==================== PUBLIC MOBILYA CONTROLLER ====================
   window.MobilyaApp = {
+    // ==================== SIDE DRAWER METHODS ====================
+    openSideDrawer: () => {
+      const drawer = document.getElementById('side-drawer-container');
+      if (drawer) {
+        drawer.classList.add('drawer-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    },
+
+    closeSideDrawer: () => {
+      const drawer = document.getElementById('side-drawer-container');
+      if (drawer) {
+        drawer.classList.remove('drawer-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    },
+
+    toggleSideDrawer: () => {
+      const drawer = document.getElementById('side-drawer-container');
+      if (drawer && drawer.classList.contains('drawer-open')) {
+        window.MobilyaApp.closeSideDrawer();
+      } else {
+        window.MobilyaApp.openSideDrawer();
+      }
+    },
+
     // Navigation
     goHome: () => {
+      window.MobilyaApp.closeSideDrawer();
       document.querySelectorAll('.view-container').forEach((v) => v.classList.remove('active-view'));
       document.getElementById('view-home')?.classList.add('active-view');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1006,6 +1111,7 @@
     openStoreDetails: async (storeId) => {
       // 1. Activate view-store-page and close any modal
       window.MobilyaApp.closeStoreDetails();
+      window.MobilyaApp.closeSideDrawer();
       document.querySelectorAll('.view-container').forEach((v) => v.classList.remove('active-view'));
       const storeView = document.getElementById('view-store-page');
       if (storeView) {
@@ -1545,6 +1651,16 @@
       }
     },
   };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.MobilyaApp.closeSideDrawer();
+      window.MobilyaApp.closeAuthModal();
+      window.MobilyaApp.closeRegionModal();
+      window.MobilyaApp.closeNotificationsModal();
+      window.MobilyaApp.closeStoreDetails();
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', initApp);
 })();
