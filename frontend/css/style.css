@@ -229,10 +229,37 @@ body {
 @media (max-width: 768px) {
   .mobile-bottom-nav {
     display: flex;
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
   }
   body {
-    padding-bottom: 72px;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   }
+  
+  /* Compact cards on mobile phones */
+  .glass-card {
+    border-radius: 16px;
+  }
+  
+  /* Comfortable touch targets on mobile */
+  button, a {
+    touch-action: manipulation;
+  }
+}
+
+/* Laptop & Desktop widescreen enhancements */
+@media (min-width: 1024px) {
+  .glass-header-nav {
+    transition: background-color 0.3s ease;
+  }
+}
+
+/* No Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .view-container {
@@ -241,3 +268,4 @@ body {
 .view-container.active-view {
   display: block;
 }
+
