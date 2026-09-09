@@ -181,6 +181,12 @@
             </span>`
           : '';
 
+        const storeLoc = store.location || store.region || 'أبو غريب - أبو منيصير';
+        const storeRating = store.avg_rating ? Number(store.avg_rating).toFixed(1) : (store.rating ? Number(store.rating).toFixed(1) : '5.0');
+        const storeReviews = store.reviews_count ?? store.reviewCount ?? (store.reviews ? store.reviews.length : 0);
+        const storeProds = store.products_count ?? (store.products ? store.products.length : 0);
+        const storeSrvs = store.services_count ?? (store.services ? store.services.length : 0);
+
         return `
         <div class="glass-card p-5 rounded-2xl border border-slate-800/80 hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-4">
           <div>
@@ -188,19 +194,19 @@
               <div class="flex items-center gap-3">
                 <img src="${store.logo || 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=200'}" alt="${store.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-700" />
                 <div>
-                  <h3 class="font-extrabold text-sm text-white hover:text-purple-300 transition-colors cursor-pointer" onclick="window.MobilyaApp.openStoreDetails(${store.id})">
+                  <h3 class="font-extrabold text-sm text-white hover:text-purple-300 transition-colors cursor-pointer" onclick="window.MobilyaApp.openStoreDetails('${store.id}')">
                     ${store.name}
                   </h3>
                   <div class="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
                     <span>📍</span>
-                    <span>${store.location}</span>
+                    <span>${storeLoc}</span>
                   </div>
                   <div class="flex items-center gap-1.5 mt-1 text-xs">
                     <span class="text-amber-400 font-bold flex items-center gap-0.5">
                       <span>★</span>
-                      <span>${store.avg_rating ? Number(store.avg_rating).toFixed(1) : '5.0'}</span>
+                      <span>${storeRating}</span>
                     </span>
-                    <span class="text-[10px] text-slate-400 font-mono">(${store.reviews_count || 0} تقييم)</span>
+                    <span class="text-[10px] text-slate-400 font-mono">(${storeReviews} تقييم)</span>
                   </div>
                 </div>
               </div>
@@ -208,27 +214,27 @@
             </div>
 
             <p class="text-xs text-slate-300 line-clamp-2 leading-relaxed mb-3">
-              ${store.description || 'مركز متخصص بالأجهزة الذكية والصيانة المعتمدة في قضاء أبو غريب.'}
+              ${store.description || store.about || 'مركز متخصص بالأجهزة الذكية والصيانة المعتمدة في قضاء أبو غريب.'}
             </p>
 
             <div class="grid grid-cols-2 gap-2 text-[11px] p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80 mb-2">
               <div>
                 <span class="text-slate-400 block text-[10px]">الهواتف المعروضة:</span>
-                <span class="font-bold text-white font-mono">${store.products_count || 0} جهاز</span>
+                <span class="font-bold text-white font-mono">${storeProds} جهاز</span>
               </div>
               <div>
                 <span class="text-slate-400 block text-[10px]">خدمات الصيانة:</span>
-                <span class="font-bold text-cyan-300 font-mono">${store.services_count || 0} خدمة</span>
+                <span class="font-bold text-cyan-300 font-mono">${storeSrvs} خدمة</span>
               </div>
             </div>
           </div>
 
           <div class="flex items-center gap-2 pt-2 border-t border-slate-800/80">
-            <button onclick="window.MobilyaApp.contactStoreWhatsApp(${store.id})" class="flex-1 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors">
+            <button onclick="window.MobilyaApp.contactStoreWhatsApp('${store.id}')" class="flex-1 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors">
               <span>واتساب</span>
               <span>💬</span>
             </button>
-            <button onclick="window.MobilyaApp.openStoreDetails(${store.id})" class="px-3.5 py-2 rounded-xl btn-glass-secondary text-xs font-semibold">
+            <button onclick="window.MobilyaApp.openStoreDetails('${store.id}')" class="px-3.5 py-2 rounded-xl btn-glass-secondary text-xs font-semibold">
               تصفح المحل ←
             </button>
           </div>
@@ -283,14 +289,14 @@
           <div class="space-y-1">
             <div class="text-[10px] text-purple-400 font-bold">${p.category_name || 'هواتف'}</div>
             <h4 class="text-xs font-bold text-white line-clamp-1 group-hover:text-purple-300 transition-colors">${p.name}</h4>
-            <div onclick="window.MobilyaApp.openStoreDetails(${p.store_id})" class="text-[10px] text-slate-400 hover:text-purple-300 transition-colors cursor-pointer truncate" title="تصفح هذا المحل">🏪 ${p.store_name} — ${p.store_location || 'أبو غريب'}</div>
+            <div onclick="window.MobilyaApp.openStoreDetails('${p.store_id}')" class="text-[10px] text-slate-400 hover:text-purple-300 transition-colors cursor-pointer truncate" title="تصفح هذا المحل">🏪 ${p.store_name} — ${p.store_location || 'أبو غريب'}</div>
           </div>
 
           <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
             <div class="text-xs font-black text-cyan-300 font-mono">
               ${formatIQD(p.price)}
             </div>
-            <button onclick="window.MobilyaApp.orderProductWhatsApp(${p.id})" class="p-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-xs font-bold border border-emerald-500/30 flex items-center gap-1">
+            <button onclick="window.MobilyaApp.orderProductWhatsApp('${p.id}')" class="p-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-xs font-bold border border-emerald-500/30 flex items-center gap-1">
               <span>طلب</span>
               <span>💬</span>
             </button>
@@ -311,7 +317,7 @@
         state.offers = await window.API.getOffers();
       }
     } catch {
-      state.offers = window.MobilyaData?.flashDeals || [];
+      state.offers = window.MobilyaData?.offers || window.MobilyaData?.flashDeals || [];
     }
 
     if (!state.offers || state.offers.length === 0) return;
@@ -342,7 +348,7 @@
           <span class="text-[9px] text-slate-400 block mt-1">تم حجز 80% من الكمية المتوفرة</span>
         </div>
 
-        <button onclick="window.MobilyaApp.orderDealWhatsApp(${deal.id})" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-rose-600/20">
+        <button onclick="window.MobilyaApp.orderDealWhatsApp('${deal.id}')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-rose-600/20">
           <span>حجز العرض الآن عبر الواتساب</span>
           <span>💬</span>
         </button>
@@ -363,7 +369,7 @@
         state.services = await window.API.getServices();
       }
     } catch {
-      state.services = [];
+      state.services = window.MobilyaData?.services || [];
     }
 
     // Populate device select
@@ -957,26 +963,32 @@
 
     // WhatsApp Contact Actions
     contactStoreWhatsApp: (storeId) => {
-      const store = state.stores.find((s) => s.id === storeId);
-      const phone = store ? store.whatsapp || store.phone : '9647701112233';
+      const store = (state.stores || []).find((s) => String(s.id) === String(storeId)) || state.activeStore;
+      const rawPhone = (store ? (store.whatsapp || store.phone) : '9647701112233').replace(/\D/g, '');
       const msg = encodeURIComponent(`مرحباً ${store ? store.name : 'مركز الموبايل'}، رأيت متجركم على منصة Mobilya في قضاء أبو غريب وأود الاستفسار عن الأجهزة والخدمات.`);
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      window.open(`https://wa.me/${rawPhone}?text=${msg}`, '_blank');
     },
 
     orderProductWhatsApp: (prodId) => {
-      const prod = state.products.find((p) => p.id === prodId);
+      const prod = (state.products || []).find((p) => String(p.id) === String(prodId));
       if (!prod) return;
-      const phone = prod.store_whatsapp || '9647701112233';
-      const msg = encodeURIComponent(`مرحباً ${prod.store_name}، أنا مهتم بالطلب المباشر لجهاز (${prod.name}) بسعر ${formatIQD(prod.price)} عبر منصة Mobilya.`);
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      const store = (state.stores || []).find((s) => String(s.id) === String(prod.store_id || prod.storeId));
+      const rawPhone = (prod.store_whatsapp || (store && (store.whatsapp || store.phone)) || '9647701112233').replace(/\D/g, '');
+      const storeName = prod.store_name || (store && store.name) || 'المتجر';
+      const msg = encodeURIComponent(`مرحباً ${storeName}، أنا مهتم بالطلب المباشر لجهاز (${prod.name}) بسعر ${formatIQD(prod.price)} عبر منصة Mobilya في أبو غريب.`);
+      window.open(`https://wa.me/${rawPhone}?text=${msg}`, '_blank');
     },
 
     orderDealWhatsApp: (dealId) => {
-      const deal = state.offers.find((d) => d.id === dealId);
+      const deal = (state.offers || []).find((d) => String(d.id) === String(dealId));
       if (!deal) return;
-      const phone = deal.store_whatsapp || '9647701112233';
-      const msg = encodeURIComponent(`مرحباً ${deal.store_name}، أرغب بحجز العرض الحصري (${deal.product_name}) بسعر ${formatIQD(deal.new_price)} عبر منصة Mobilya.`);
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      const store = (state.stores || []).find((s) => String(s.id) === String(deal.store_id || deal.storeId));
+      const rawPhone = (deal.store_whatsapp || (store && (store.whatsapp || store.phone)) || '9647701112233').replace(/\D/g, '');
+      const storeName = deal.store_name || (store && store.name) || 'المتجر';
+      const dealTitle = deal.product_name || deal.title || deal.name;
+      const dealPrice = deal.new_price || deal.price;
+      const msg = encodeURIComponent(`مرحباً ${storeName}، أرغب بحجز العرض الحصري (${dealTitle}) بسعر ${formatIQD(dealPrice)} عبر منصة Mobilya في أبو غريب.`);
+      window.open(`https://wa.me/${rawPhone}?text=${msg}`, '_blank');
     },
 
     bookMaintenanceWhatsApp: () => {
@@ -1012,14 +1024,31 @@
       }
 
       if (!store) {
-        store = state.stores.find((s) => s.id === storeId) || {
+        store = (state.stores || []).find((s) => String(s.id) === String(storeId)) || {
           id: storeId,
           name: 'متجر في أبو غريب',
-          location: 'أبو غريب',
+          location: 'أبو غريب - أبو منيصير',
           products: [],
           services: [],
           offers: [],
         };
+      }
+
+      // Ensure store products, services, offers, and reviews are populated from state or MobilyaData if empty
+      if (!store.products || store.products.length === 0) {
+        store.products = (state.products || []).filter((p) => String(p.store_id || p.storeId) === String(storeId));
+      }
+      if (!store.services || store.services.length === 0) {
+        store.services = (state.services || []).filter((s) => String(s.store_id || s.storeId) === String(storeId));
+      }
+      if (!store.offers || store.offers.length === 0) {
+        store.offers = (state.offers || []).filter((o) => String(o.store_id || o.storeId) === String(storeId));
+      }
+      if (!store.reviews || store.reviews.length === 0) {
+        const staticStore = (window.MobilyaData?.stores || []).find((s) => String(s.id) === String(storeId));
+        if (staticStore && staticStore.reviews) {
+          store.reviews = staticStore.reviews;
+        }
       }
 
       state.activeStore = store;
@@ -1483,8 +1512,31 @@
           alert('🌟 شكراً لمشاركتك! تم إضافة تقييمك للمحل بنجاح.');
         }
       } catch (err) {
-        console.error('Error submitting review:', err);
-        alert('حدث خطأ أثناء إرسال التقييم: ' + (err.message || 'يرجى المحاولة مجدداً'));
+        console.warn('API submission failed or offline mode, saving locally:', err);
+        const newReview = {
+          id: Date.now(),
+          store_id: storeId,
+          customer_name: customerName || 'زبون من أبو غريب',
+          rating: ratingVal,
+          comment,
+          created_at: new Date().toISOString()
+        };
+        if (!state.activeStore.reviews) state.activeStore.reviews = [];
+        state.activeStore.reviews.unshift(newReview);
+        state.activeStore.reviews_count = state.activeStore.reviews.length;
+        const sum = state.activeStore.reviews.reduce((acc, r) => acc + Number(r.rating), 0);
+        state.activeStore.avg_rating = (sum / state.activeStore.reviews.length).toFixed(1);
+
+        if (commentInput) commentInput.value = '';
+        window.MobilyaApp.setReviewRating(5);
+        await window.MobilyaApp.renderStoreReviews(state.activeStore);
+
+        const storeIdx = (state.stores || []).findIndex((s) => String(s.id) === String(storeId));
+        if (storeIdx !== -1) {
+          state.stores[storeIdx].avg_rating = state.activeStore.avg_rating;
+          state.stores[storeIdx].reviews_count = state.activeStore.reviews_count;
+        }
+        alert('🌟 شكراً لمشاركتك! تم إضافة تقييمك للمحل بنجاح.');
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
